@@ -43,11 +43,70 @@
   --accent-glow: oklch(0.78 0.14 258);
 }
 
+.theme-cyberpunk {
+  --background: oklch(0.08 0.01 320);
+  --foreground: oklch(0.98 0.02 320);
+  --surface: oklch(0.12 0.03 320);
+  --surface-2: oklch(0.16 0.04 320);
+  --muted: oklch(0.16 0.04 320);
+  --muted-foreground: oklch(0.65 0.08 320);
+  --border: oklch(0.7 0.25 328 / 20%);
+  --accent: oklch(0.7 0.28 328); /* Neon Magenta Pink */
+  --accent-dim: oklch(0.55 0.25 328);
+  --accent-glow: oklch(0.8 0.25 328);
+}
+
+.theme-slate {
+  --background: oklch(0.11 0.005 240);
+  --foreground: oklch(0.98 0.005 240);
+  --surface: oklch(0.15 0.008 240);
+  --surface-2: oklch(0.19 0.01 240);
+  --muted: oklch(0.19 0.01 240);
+  --muted-foreground: oklch(0.62 0.01 240);
+  --border: oklch(1 0 0 / 7%);
+  --accent: oklch(0.76 0.14 165); /* Soft Mint/Emerald */
+  --accent-dim: oklch(0.6 0.1 165);
+  --accent-glow: oklch(0.85 0.1 165);
+}
+
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body { background-color: var(--color-background); color: var(--color-foreground); }
-  body { font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+  * { border-color: var(--color-border); transition: background-color 0.3s ease, border-color 0.3s ease; }
+  html, body { background-color: var(--color-background); color: var(--color-foreground); scroll-behavior: smooth; }
+  body { 
+    font-family: var(--font-body); 
+    -webkit-font-smoothing: antialiased; 
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    background-image: url("./assets/eebu_bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.05;
+    pointer-events: none;
+  }
   ::selection { background: var(--color-accent); color: white; }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+  }
 }
 
 @keyframes marquee {
@@ -62,5 +121,34 @@
 }
 .animate-fade-up { animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink { animation: blink 1s step-end infinite; }
+
 @utility font-display { font-family: var(--font-display); }
 @utility font-body { font-family: var(--font-body); }
+
+/* Dotted grid pattern */
+.dots-grid {
+  background-size: 24px 24px;
+  background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+}
+
+/* Diagonal line grid pattern (for Cyberpunk vibes) */
+.lines-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+}
+
+/* Hide scrollbar helper */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
