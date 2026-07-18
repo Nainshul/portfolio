@@ -261,6 +261,12 @@ function Portfolio() {
   
   // Interactive Cross-Widget states
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+  const [projectFilter, setProjectFilter] = useState<string>("all");
+
+  const filteredProjects = useMemo(() => {
+    if (projectFilter === "all") return PROJECTS;
+    return PROJECTS.filter((p) => p.category === projectFilter);
+  }, [projectFilter]);
   
   // OS Metrics mock fluctuation state
   const [sysMetrics, setSysMetrics] = useState({ cpu: 4, ram: 14 });
