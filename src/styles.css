@@ -87,7 +87,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 0.05;
+    opacity: 0.15;
     pointer-events: none;
   }
   ::selection { background: var(--color-accent); color: white; }
