@@ -36,6 +36,13 @@ export const Route = createFileRoute("/")({
 
 type Theme = "astro" | "cyberpunk" | "slate" | "amber";
 
+const SOCIALS = [
+  { label: "GitHub", href: "https://github.com/Nainshul", Icon: Github },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/nainshul-khatkar-8ba462394/", Icon: Linkedin },
+  { label: "Twitter / X", href: "https://x.com/nainshul_", Icon: Twitter },
+  { label: "Email", href: "mailto:nainshulkhatker@gmail.com", Icon: Mail },
+];
+
 const SERVICES = [
   {
     num: "01",
