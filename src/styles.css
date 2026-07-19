@@ -31,13 +31,13 @@
 
 :root {
   --radius: 0.875rem;
-  --background: #090909;
+  --background: #000000;
   --foreground: #e1e1e1;
-  --surface: #121212;
-  --surface-2: #1a1a1a;
-  --muted: #1a1a1a;
+  --surface: #0a0a0a;
+  --surface-2: #121212;
+  --muted: #121212;
   --muted-foreground: #8c8c8c;
-  --border: rgba(225, 225, 225, 0.08);
+  --border: rgba(225, 225, 225, 0.05);
   --accent: #fcc84e;
   --accent-dim: #e5b33d;
   --accent-glow: #ffe299;
@@ -46,6 +46,16 @@
 .font-serif-italic {
   font-family: "Playfair Display", Georgia, serif;
   font-style: italic;
+}
+
+/* Accordion max-height transitions */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s ease;
+}
+.accordion-content.open {
+  max-height: 200px;
 }
 
 .theme-cyberpunk {

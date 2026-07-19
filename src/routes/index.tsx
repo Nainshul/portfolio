@@ -12,7 +12,6 @@ import {
   Terminal as TerminalIcon, 
   FileCode, 
   Play, 
-  MessageSquare, 
   X, 
   Check, 
   ChevronDown, 
@@ -23,7 +22,9 @@ import {
   VolumeX,
   Plus,
   Minus,
-  HelpCircle
+  CheckCircle,
+  HelpCircle,
+  Code
 } from "lucide-react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import projectCrop from "@/assets/project-crop.jpg";
@@ -37,10 +38,10 @@ export const Route = createFileRoute("/")({
 type Theme = "astro" | "cyberpunk" | "slate" | "amber";
 
 const SOCIALS = [
-  { label: "GitHub", href: "https://github.com/Nainshul", Icon: Github },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/nainshul-khatkar-8ba462394/", Icon: Linkedin },
-  { label: "Twitter / X", href: "https://x.com/nainshul_", Icon: Twitter },
-  { label: "Email", href: "mailto:nainshulkhatker@gmail.com", Icon: Mail },
+  { label: "Instagram", href: "https://www.instagram.com/nainshul.ux/", short: "IG" },
+  { label: "X / Twitter", href: "https://x.com/nainshul_", short: "TW" },
+  { label: "GitHub", href: "https://github.com/Nainshul", short: "GH" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/nainshul-khatkar-8ba462394/", short: "LI" },
 ];
 
 const SERVICES = [
@@ -48,28 +49,28 @@ const SERVICES = [
     num: "01",
     title: "Web Design",
     description: "Creating websites that perfectly balance bold aesthetics with functionality for maximum user engagement.",
-    bullets: ["Custom Web Design", "Figma Prototyping", "Animations & Interactions", "Responsive Layouts", "SEO & Optimization"],
+    bullets: ["Custom web design", "CMS integration", "Animations & Interactions", "Responsive Layouts", "SEO setup"],
     time: "From 20 working days",
   },
   {
     num: "02",
-    title: "Mobile UI Design",
-    description: "Designing native and intuitive mobile application experiences across iOS and Android platforms.",
-    bullets: ["Native iOS Design", "Android App Design", "Cross-Platform UI System", "User Journeys", "Micro-Interactions"],
+    title: "Mobile Design",
+    description: "Designing mobile experiences that feel native and intuitive across all devices and platforms.",
+    bullets: ["Native iOS design", "Android design", "Cross-platform UI", "User journeys", "Animations"],
     time: "From 25 working days",
   },
   {
     num: "03",
-    title: "Redesign Services",
-    description: "Revitalizing existing digital products with fresh UI systems and improved user experience strategy.",
-    bullets: ["UX/UI Audits", "Design System Updates", "User Research & A/B Testing", "Conversion Optimization", "Brand Consistency"],
+    title: "Redesign Service",
+    description: "Revitalizing existing digital products with fresh design and improved user experience strategies.",
+    bullets: ["UX/UI audit", "Design system update", "User research", "A/B testing", "Conversion optimization"],
     time: "From 15 working days",
   },
   {
     num: "04",
-    title: "Design Consultation",
+    title: "Consultation",
     description: "Strategic design guidance and expert advice to help you make informed decisions about your digital presence.",
-    bullets: ["UX Audit & Strategy", "Technical Consultation", "Design Reviews", "Team Mentoring", "UI/UX Best Practices"],
+    bullets: ["Design strategy", "UX audit", "Technical consultation", "Team mentoring", "Design review"],
     time: "From 1 working day",
   },
 ];
@@ -83,7 +84,7 @@ const PROJECTS = [
     tags: ["Computer Vision", "AI Diagnostic", "React", "Python"],
     year: "2024",
     blurb: "A machine learning crop diagnosis app that helps farmers detect leaf anomalies, tracks local soil moisture metrics, and pushes live crop-saving notifications.",
-    bgClass: "bg-[#e1e1e1] text-black",
+    bgClass: "bg-white text-black",
   },
   {
     title: "Zen Study Flow",
@@ -93,21 +94,37 @@ const PROJECTS = [
     tags: ["UI/UX", "Productivity", "Tailwind", "React"],
     year: "2024",
     blurb: "A focus-oriented study companion utilizing custom session tracking timers, distraction-shield blocks, and visual analytical metrics charts.",
-    bgClass: "bg-[#121212] text-white border-t border-border/20",
+    bgClass: "bg-[#0a0a0a] text-white border-t border-border/20",
   },
 ];
 
 const PROCESS_STEPS = [
-  { step: "1", name: "Discovery & Briefing", desc: "Initial consultation, project goals definition, KPIs establishment, and technical requirements documentation." },
-  { step: "2", name: "Moodboard & References", desc: "Creation of a visual direction through moodboards and collection of stylistic references to align on style." },
-  { step: "3", name: "Design Concept", desc: "Development of unique visual design concepts for client selection and feedback refinement." },
-  { step: "4", name: "Research & Strategy", desc: "In-depth research of target audience, personas, and competitor/market UX benchmarks." },
-  { step: "5", name: "Site Architecture", desc: "Structure definition, detailed sitemaps, page hierarchy, and interaction wireframes." },
-  { step: "6", name: "Content Strategy", desc: "Audit and planning of copy, media assets, SEO strategy, and division of delivery roles." },
-  { step: "7", name: "UI Design", desc: "Creation of detailed adaptive UI layouts for all pages across desktop, tablet, and mobile breakpoints." },
-  { step: "8", name: "Development", desc: "Technical planning, Framer CMS setup, integration of third-party widgets, and custom code builds." },
-  { step: "9", name: "Testing & QA", desc: "Comprehensive cross-device, cross-browser, and SEO check to guarantee launch quality." },
-  { step: "10", name: "Launch & Support", desc: "Website launch with domain setups, DNS configurations, and post-launch support." }
+  { step: "1", name: "Discovery & Briefing", desc: "Initial consultation, project goals definition, KPIs establishment, and technical requirements documentation. Contract signing and project kickoff." },
+  { step: "2", name: "Moodboard & References", desc: "Creation of a visual direction through moodboards and collection of stylistic references. This phase clarifies design preferences." },
+  { step: "3", name: "Design Concept", desc: "Development of three unique visual design concepts for the client’s selection. Fixation of the final style direction based on feedback." },
+  { step: "4", name: "Research & Strategy", desc: "In-depth research of target audience and personas, as well as competitor and market analysis (UX, SEO benchmarking)." },
+  { step: "5", name: "Site Architecture", desc: "Creation of the website’s structure, sitemaps, page hierarchy, wireframes, and user flows to define interactions." },
+  { step: "6", name: "Content Strategy", desc: "Audit and planning of content: text, media assets, SEO strategy, and division of responsibilities for content delivery." },
+  { step: "7", name: "UI Design", desc: "Creation of detailed and adaptive UI layouts for desktop, tablet, and mobile, ensuring alignment with the agreed style." },
+  { step: "8", name: "Development", desc: "Technical planning, Framer CMS setup, integration with external services, and responsive web development." },
+  { step: "9", name: "Testing & QA", desc: "Comprehensive testing phase: functional, cross-device, cross-browser, and SEO checks to guarantee quality." },
+  { step: "10", name: "Launch & Support", desc: "Website launch with production migration, domain setup, and final operability checks." }
+];
+
+const PROPOSAL_DELIVERABLES = [
+  "Project scope analysis",
+  "Custom timeline planning",
+  "Brand research & strategy",
+  "User experience mapping",
+  "Responsive design system",
+  "Framer development",
+  "SEO optimization",
+  "Analytics integration",
+  "Content strategy support",
+  "Third-party integrations",
+  "Multi-language setup",
+  "Advanced animations",
+  "Training & handover"
 ];
 
 const ACHIEVEMENTS = [
@@ -119,27 +136,27 @@ const ACHIEVEMENTS = [
 const FAQS = [
   {
     q: "What is your experience and do you have case studies?",
-    a: "I have worked on web design and digital product development projects across multiple disciplines including fintech, e-commerce, and productivity tools. You can review my selected works in the 'Cases' section of this page, and check my real-time code tabs in the built-in workspace."
+    a: "I have over 3 years of experience in web design and digital product development. I've worked across multiple industries: e-commerce, fintech, education, and real estate. You can review my work in the Cases section above."
   },
   {
-    q: "How should project content be structured?",
-    a: "I kindly ask you to structure all text prototypes, logos, and images in separate folders (e.g. team photos, copywriting in Word/Docs with clear blocks). This helps speed up the layout process significantly."
+    q: "How should content be structured for the project?",
+    a: "I kindly ask you to structure all content you send me in organized folders (e.g. text prototype in Docs, team photos labeled by employee name). This speeds up the design work significantly."
   },
   {
     q: "What are the typical project timelines?",
-    a: "Timeline depends on complexity. The minimum timeframe for quality implementation is 20+ working days, allowing for detailed research, design system styling, building, and thorough testing."
+    a: "Timeframes are calculated depending on scale. The minimum timeframe for quality implementation is 20+ working days. This allows for detailed UX research, layout design, and QA testing."
   },
   {
     q: "How does payment work?",
-    a: "I usually operate on a 50/50 scheme (advance payment and final payment upon launch) or stage-by-stage milestones after completing each project phase."
+    a: "I offer a standard 50/50 scheme (advance payment and final payment upon launch) or stage-by-stage payments after completing each milestone phase."
   },
   {
     q: "Can I request revisions during the project?",
-    a: "Yes! Each phase includes a comprehensive revision package. Revisions should be formatted in one clear document with screenshots to avoid confusion."
+    a: "Yes. Each stage includes one revisions package. Revisions should be compiled into one document with screenshots so they can be processed efficiently."
   },
   {
     q: "Do you place your label on the website?",
-    a: "I place a small author label in the website footer. This serves as an author's mark. If you prefer to remove it, the project cost increases by 20%."
+    a: "I always place a small credit label in the footer. If you prefer to remove the label, the project cost increases by 20%."
   }
 ];
 
@@ -151,7 +168,7 @@ export const DeveloperProfile: React.FC = () => {
     name: 'Nainshul Khatkar',
     role: 'UI/UX & Frontend Developer',
     education: 'BCA (2024 - 2028)',
-    status: 'Open to interesting projects'
+    status: 'Open for interesting projects'
   };
 
   return (
@@ -198,22 +215,22 @@ const playSynthTick = (type: "hover" | "click" | "keypress", isMuted: boolean) =
       osc.type = "sine";
       osc.frequency.setValueAtTime(1100, audioCtx.currentTime);
       gain.gain.setValueAtTime(0.012, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.035);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.035);
+      osc.stop(audioCtx.currentTime + 0.04);
     } else if (type === "click") {
       osc.type = "triangle";
       osc.frequency.setValueAtTime(650, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.07);
+      osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.08);
       gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.09);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.09);
+      osc.stop(audioCtx.currentTime + 0.1);
     } else if (type === "keypress") {
       osc.type = "sine";
       osc.frequency.setValueAtTime(500, audioCtx.currentTime);
       gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.018);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.02);
     }
@@ -231,6 +248,7 @@ function Portfolio() {
   // Interactive UI states
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [activeProcessTab, setActiveProcessTab] = useState<number>(0);
+  const [devWorkspaceOpen, setDevWorkspaceOpen] = useState<boolean>(false);
   
   // Terminal state
   const [terminalInput, setTerminalInput] = useState("");
@@ -338,17 +356,17 @@ function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-body relative overflow-x-hidden selection:bg-accent selection:text-black">
+    <div className="min-h-screen bg-background text-[#e1e1e1] font-body relative overflow-x-hidden selection:bg-accent selection:text-black">
       
       {/* Decorative dotted grids */}
-      <div className="absolute inset-0 -z-20 pointer-events-none dots-grid opacity-[0.15]" />
+      <div className="absolute inset-0 -z-20 pointer-events-none dots-grid opacity-[0.12]" />
 
       {/* Sticky Header Navigation */}
-      <nav className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl h-16 flex items-center justify-between px-6 md:px-12 select-none select-none">
+      <nav className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl h-16 flex items-center justify-between px-6 md:px-12 select-none select-none">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => scrollTo("hero")}
-            className="font-display font-black text-base tracking-wider hover:text-accent cursor-pointer"
+            className="font-display font-black text-sm tracking-[0.2em] text-[#fff] hover:text-accent cursor-pointer transition-colors"
           >
             N.KHATKAR
           </button>
@@ -359,13 +377,13 @@ function Portfolio() {
         </div>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-8 text-xs font-mono">
+        <div className="hidden md:flex items-center gap-8 text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
           {[
             { label: "About", id: "about" },
             { label: "Services", id: "services" },
             { label: "Cases", id: "cases" },
             { label: "Process", id: "process" },
-            { label: "Workspace", id: "workspace" },
+            { label: "Pricing", id: "pricing" },
             { label: "FAQ", id: "faq" },
           ].map((item) => (
             <button
@@ -375,7 +393,7 @@ function Portfolio() {
                 playSynthTick("click", isMuted);
               }}
               onMouseEnter={() => playSynthTick("hover", isMuted)}
-              className="hover:text-accent cursor-pointer transition-colors"
+              className="hover:text-[#fff] cursor-pointer transition-colors"
             >
               {item.label}
             </button>
@@ -398,7 +416,7 @@ function Portfolio() {
           <div className="relative">
             <button 
               onClick={() => setThemeMenuOpen(!themeMenuOpen)}
-              className="flex items-center gap-1 h-8 px-3 rounded-full bg-surface border border-border hover:border-accent/40 hover:bg-surface-2 transition-all cursor-pointer capitalize text-[10px] font-semibold"
+              className="flex items-center gap-1.5 h-8 px-3 rounded-full bg-surface border border-border hover:border-accent/40 hover:bg-surface-2 transition-all cursor-pointer capitalize text-[10px] font-semibold text-[#fff]"
             >
               <Monitor className="size-3 text-accent" />
               <span>{theme}</span>
@@ -432,30 +450,30 @@ function Portfolio() {
 
       {/* Hero Section */}
       <section id="hero" className="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20 border-b border-border">
-        <div className="max-w-6xl mx-auto w-full py-12 md:py-24 space-y-8">
+        <div className="max-w-6xl mx-auto w-full py-12 md:py-24 space-y-10">
           
           <div className="space-y-4">
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent block">
-              UI/UX &amp; FRONTEND DEVELOPER
+            <span className="text-[10px] font-mono uppercase tracking-[0.35em] text-accent block">
+              FREELANCE WEBSITE CREATOR &amp; FRONTEND ENGINE
             </span>
-            <h1 className="font-display text-4xl sm:text-6xl md:text-8xl font-black leading-[0.95] tracking-tight uppercase">
-              Web <span className="font-serif-italic text-accent lowercase">Designer</span> &amp; <br />
-              Developer
+            <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-black leading-[0.9] tracking-tight uppercase text-[#fff]">
+              Web <span className="font-serif-italic text-muted-foreground lowercase">designer</span> <br />
+              &amp; developer
             </h1>
           </div>
 
-          <div className="grid md:grid-cols-12 gap-8 pt-8 items-start">
+          <div className="grid md:grid-cols-12 gap-8 pt-6 items-start">
             <div className="md:col-span-7">
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
-                I am a freelance UI/UX designer and frontend developer who moves from visual concepts to launched, high-performance websites. I combine structured codebases with bold, modern layout designs.
+                I'm a freelance web designer and frontend developer focused on creating unique and creative websites for business. I believe every brand deserves a distinctive digital presence that stands out.
               </p>
             </div>
             
             <div className="md:col-span-5 space-y-4 font-mono text-xs">
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => scrollTo("cases")}
-                  className="group inline-flex items-center gap-2 h-11 px-5 bg-foreground text-background font-bold rounded-full transition-all hover:bg-accent hover:text-black cursor-pointer"
+                  className="group inline-flex items-center gap-2 h-11 px-6 bg-accent text-black font-bold rounded-full transition-all hover:opacity-90 cursor-pointer"
                   onMouseEnter={() => playSynthTick("hover", isMuted)}
                   onClick={() => playSynthTick("click", isMuted)}
                 >
@@ -463,13 +481,13 @@ function Portfolio() {
                   <ArrowUpRight className="size-4" />
                 </button>
                 <button
-                  onClick={() => scrollTo("contact")}
-                  className="inline-flex items-center justify-center size-11 rounded-full border border-border hover:border-accent hover:text-accent transition-colors cursor-pointer"
+                  onClick={() => setDevWorkspaceOpen(!devWorkspaceOpen)}
+                  className="inline-flex items-center gap-2 h-11 px-5 bg-surface border border-border hover:border-accent hover:text-accent transition-colors rounded-full font-bold cursor-pointer"
                   onMouseEnter={() => playSynthTick("hover", isMuted)}
                   onClick={() => playSynthTick("click", isMuted)}
-                  title="Contact Me"
                 >
-                  <Mail className="size-4" />
+                  <Code className="size-4 text-accent" />
+                  <span>Workspace Console</span>
                 </button>
               </div>
             </div>
@@ -477,11 +495,27 @@ function Portfolio() {
 
         </div>
 
-        {/* Marquee Row */}
-        <div className="w-full overflow-hidden border-t border-border py-4 bg-surface/30 select-none">
-          <div className="flex whitespace-nowrap animate-marquee font-display font-black text-xs sm:text-sm tracking-widest uppercase gap-8">
-            <span>· UI/UX DESIGN · FIGMA PROTOTYPING · REACT MODULES · FRONTEND SYSTEM · CONVERSION OPTIMIZED · TAILWIND DESIGN · MOTION GRAPHICS · BRAND TRANSLATION ·</span>
-            <span>· UI/UX DESIGN · FIGMA PROTOTYPING · REACT MODULES · FRONTEND SYSTEM · CONVERSION OPTIMIZED · TAILWIND DESIGN · MOTION GRAPHICS · BRAND TRANSLATION ·</span>
+        {/* Social Text links row (from Denis's header link row) */}
+        <div className="w-full max-w-6xl mx-auto border-t border-border/80 pt-6 pb-8 flex flex-wrap gap-4 items-center justify-between text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+          <div className="flex gap-4">
+            {SOCIALS.map((soc) => (
+              <a 
+                key={soc.label} 
+                href={soc.href} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-accent flex items-center gap-0.5"
+                onMouseEnter={() => playSynthTick("hover", isMuted)}
+                onClick={() => playSynthTick("click", isMuted)}
+              >
+                <span>{soc.label}</span>
+                <ArrowUpRight className="size-3" />
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+            <span>Scroll to Explore</span>
           </div>
         </div>
       </section>
@@ -492,37 +526,37 @@ function Portfolio() {
           
           <div className="md:col-span-5 space-y-4">
             <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">01 / MY STORY</span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none">
-              Design <span className="font-serif-italic text-accent lowercase">that</span> <br />
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none text-[#fff]">
+              Design <span className="font-serif-italic text-muted-foreground lowercase">that</span> <br />
               drives impact
             </h2>
           </div>
 
-          <div className="md:col-span-7 space-y-6 text-sm text-muted-foreground leading-relaxed">
-            <p className="text-foreground font-semibold text-base">
-              I believe design should translate a brand’s soul into an interactive visual language. When a website stands out, users form emotional connections with the product.
+          <div className="md:col-span-7 space-y-8 text-sm text-muted-foreground leading-relaxed">
+            <p className="text-[#fff] font-bold text-base leading-relaxed">
+              I'm a Framer Designer and Framer Developer who moves from concept to launched product in days, not months. I combine Framer with AI tools and Figma to build original and distinctive websites fast. Ship fast, test faster, iterate constantly.
             </p>
             <p>
-              I am a Framer designer, Figma specialist, and React developer who builds custom experiences fast. Pursuing a BCA degree (2024–2028) in Haryana, India, I bridge the gap between creative visual layouts and clean typescript frontend compilation. 
+              I believe design should help create individual brands that stick in memory. When brands stand out, users form emotional connections with products. As a BCA student (2024–2028), I specialize in coding frontend interfaces and organizing layouts.
             </p>
             
             {/* Core Principles */}
-            <div className="grid sm:grid-cols-2 gap-6 pt-6 border-t border-border">
+            <div className="grid sm:grid-cols-2 gap-8 pt-8 border-t border-border/80">
               <div className="space-y-2">
-                <h4 className="font-display font-bold text-foreground text-sm uppercase">Brand Soul Translation</h4>
-                <p className="text-xs">I translate your brand's essence into a cohesive visual language. Your philosophy guides every pixel and transition.</p>
+                <span className="text-[9px] font-mono text-accent font-bold uppercase">(01) Brand Soul Translation</span>
+                <p className="text-xs">I translate your brand's essence into visual language. Your philosophy becomes the foundation that guides every pixel and interaction.</p>
               </div>
               <div className="space-y-2">
-                <h4 className="font-display font-bold text-foreground text-sm uppercase">Human-Centered Creativity</h4>
-                <p className="text-xs">Every design decision is made with your audience's real needs in mind, creating experiences that feel intuitive and engaging.</p>
+                <span className="text-[9px] font-mono text-accent font-bold uppercase">(02) Human-Centered Creativity</span>
+                <p className="text-xs">I prioritize authentic human connection over flashy trends. Every design decision is made with your audience's real needs in mind.</p>
               </div>
               <div className="space-y-2">
-                <h4 className="font-display font-bold text-foreground text-sm uppercase">No Compromise Quality</h4>
-                <p className="text-xs">Whether it's a simple landing page or a complex React module, I maintain the same extreme attention to detail.</p>
+                <span className="text-[9px] font-mono text-accent font-bold uppercase">(03) No Compromise Quality</span>
+                <p className="text-xs">Whether it's a landing page or complex web app, I maintain the same attention to detail. Every project gets my full creative energy.</p>
               </div>
               <div className="space-y-2">
-                <h4 className="font-display font-bold text-foreground text-sm uppercase">Collaborative Partnership</h4>
-                <p className="text-xs">Your project is a creative partnership. I involve you in the process while bringing expertise to push boundaries.</p>
+                <span className="text-[9px] font-mono text-accent font-bold uppercase">(04) Collaborative Partnership</span>
+                <p className="text-xs">Your project isn't just another task for me. It's a creative partnership. I involve you in the process while bringing my expertise.</p>
               </div>
             </div>
           </div>
@@ -537,7 +571,7 @@ function Portfolio() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
             <div className="space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">02 / SERVICES</span>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#fff]">
                 My Professional Compass
               </h2>
             </div>
@@ -557,7 +591,7 @@ function Portfolio() {
                     <span className="font-mono text-xs text-accent font-bold">({srv.num})</span>
                     <span className="text-[9px] font-mono text-muted-foreground/60 border border-border/80 px-2 py-0.5 rounded-full">{srv.time}</span>
                   </div>
-                  <h3 className="font-display font-extrabold text-lg uppercase mb-3 text-foreground group-hover:text-accent transition-colors">{srv.title}</h3>
+                  <h3 className="font-display font-extrabold text-lg uppercase mb-3 text-[#fff] group-hover:text-accent transition-colors">{srv.title}</h3>
                   <p className="text-xs text-muted-foreground/90 leading-relaxed mb-4">{srv.description}</p>
                 </div>
                 
@@ -584,8 +618,8 @@ function Portfolio() {
           
           <div className="space-y-2">
             <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">03 / CASE STUDIES</span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
-              Selected Work
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#fff]">
+              Selected Cases
             </h2>
           </div>
 
@@ -593,7 +627,7 @@ function Portfolio() {
             {PROJECTS.map((proj) => (
               <div 
                 key={proj.title} 
-                className="group relative rounded-2xl overflow-hidden border border-border bg-surface/20 transition-all duration-500 hover:scale-[1.005]"
+                className="group relative rounded-2xl overflow-hidden border border-border bg-surface/20 transition-all duration-500 hover:scale-[1.005] hover:shadow-2xl hover:shadow-black/20"
               >
                 <div className="absolute top-4 right-4 z-10 inline-flex items-center justify-center size-10 rounded-full bg-black text-white hover:bg-accent transition-all duration-300 shadow-lg" title="View Project">
                   <ArrowUpRight className="size-4.5" />
@@ -639,275 +673,140 @@ function Portfolio() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-12 gap-12 items-start">
           
           <div className="md:col-span-5 space-y-4">
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">04 / THE PLAN</span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">04 / MY WORK PLAN</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none text-[#fff]">
               Digital Design <br />
               Process
             </h2>
-            <p className="text-xs text-muted-foreground max-w-xs leading-relaxed">
-              This roadmap outlines my standard workflow. Depending on project complexity and timeline, it can be fully customized.
+            <p className="text-xs text-muted-foreground max-w-xs leading-relaxed mt-2">
+              This roadmap outlines our effective workflow for projects. I recognize each project is unique. Depending on complexity, we can customize this process.
             </p>
-
-            {/* Quick step index tabs */}
-            <div className="grid grid-cols-5 gap-2 pt-6">
-              {PROCESS_STEPS.map((p, idx) => (
-                <button
-                  key={p.step}
-                  onClick={() => {
-                    setActiveProcessTab(idx);
-                    playSynthTick("click", isMuted);
-                  }}
-                  className={`h-9 font-mono text-xs font-bold border rounded-lg cursor-pointer transition-all ${activeProcessTab === idx ? "bg-accent border-accent text-black" : "bg-surface border-border text-muted-foreground hover:border-accent/40"}`}
-                >
-                  {p.step}
-                </button>
-              ))}
-            </div>
           </div>
 
-          <div className="md:col-span-7 bg-surface border border-border p-8 rounded-2xl relative shadow-xl min-h-[160px] flex flex-col justify-between">
-            <span className="absolute top-4 right-4 font-mono text-[9px] text-accent font-bold">STEP 0{PROCESS_STEPS[activeProcessTab].step}</span>
-            <div>
-              <h4 className="font-display text-lg font-bold uppercase text-foreground mb-3">{PROCESS_STEPS[activeProcessTab].name}</h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">{PROCESS_STEPS[activeProcessTab].desc}</p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px] font-mono text-muted-foreground/60">
-              <span>Interactive Workflow Blueprint</span>
-              <span>N.Khatkar</span>
-            </div>
+          <div className="md:col-span-7 space-y-4">
+            {PROCESS_STEPS.map((p, idx) => {
+              const isSelected = activeProcessTab === idx;
+              return (
+                <div 
+                  key={p.step}
+                  className="rounded-2xl border border-border bg-surface/40 overflow-hidden transition-all duration-300"
+                >
+                  <button
+                    onClick={() => {
+                      setActiveProcessTab(idx);
+                      playSynthTick("click", isMuted);
+                    }}
+                    className="w-full px-6 py-4 flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-foreground hover:text-accent cursor-pointer"
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className="text-accent font-mono">({p.step})</span>
+                      <span className="text-[#fff]">{p.name}</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-muted-foreground">
+                      {isSelected ? "ACTIVE" : "EXPAND"}
+                    </span>
+                  </button>
+                  
+                  {isSelected && (
+                    <div className="px-6 pb-5 pt-1 text-xs text-muted-foreground/90 border-t border-border/40 bg-surface/20 leading-relaxed select-text animate-fade-up">
+                      {p.desc}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
         </div>
       </section>
 
-      {/* Developer Workspace Panel (Terminal + Mock IDE) */}
-      <section id="workspace" className="px-6 md:px-12 py-16 md:py-32 border-b border-border">
-        <div className="max-w-6xl mx-auto space-y-12">
+      {/* Pricing / Proposal Section */}
+      <section id="pricing" className="px-6 md:px-12 py-16 md:py-32 border-b border-border">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-12 gap-12 items-start">
           
-          <div className="space-y-2">
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">05 / DEV CONTROL</span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
-              Interactive Workspace
+          <div className="md:col-span-5 space-y-4">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">05 / NO HIDDEN FEES</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none text-[#fff]">
+              Tailored Solutions, <br />
+              Transparent Process
             </h2>
-            <p className="text-xs text-muted-foreground max-w-md">
-              A designer who codes. Use the terminal console or files tab below to inspect my technical setup in real-time.
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-xs mt-2">
+              Every project is unique, and so is my approach. Custom proposals based on your specific needs, timeline, and goals. No template solutions, no hidden surprises.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-12 gap-6 items-stretch">
+          <div className="md:col-span-7 grid sm:grid-cols-2 gap-6">
             
-            {/* Terminal Widget (col-span-5) */}
-            <div className="col-span-12 md:col-span-5 flex flex-col">
-              <div className="flex-1 rounded-2xl border border-border bg-surface/30 p-5 flex flex-col justify-between relative overflow-hidden shadow-lg min-h-[260px]">
-                <div>
-                  <div className="flex justify-between items-center mb-3 border-b border-border/50 pb-2 font-mono text-[10px]">
-                    <span className="flex items-center gap-1.5 text-muted-foreground">
-                      <TerminalIcon className="size-3.5 text-accent animate-pulse" /> zsh - developer console
-                    </span>
-                    <span className="size-2 rounded-full bg-emerald-500" />
-                  </div>
-
-                  <div className="h-44 overflow-y-auto font-mono text-[10px] flex flex-col gap-1.5 no-scrollbar select-text bg-background/20 p-2.5 rounded-lg border border-border/40">
-                    {terminalHistory.map((item, idx) => (
-                      <div key={idx} className="whitespace-pre-wrap leading-normal">
-                        {item.type === "input" ? (
-                          <span className="text-accent">eebu4o4$ <span className="text-foreground">{item.text}</span></span>
-                        ) : (
-                          <span className="text-muted-foreground/80">{item.text}</span>
-                        )}
-                      </div>
-                    ))}
-                    <div ref={terminalBottomRef} />
-                  </div>
-                </div>
-
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    executeTerminalCommand(terminalInput);
-                  }}
-                  className="mt-3 border-t border-border/40 pt-2.5 flex items-center"
-                >
-                  <span className="text-accent font-mono text-[10px] mr-1 shrink-0">eebu4o4$</span>
-                  <input
-                    type="text"
-                    value={terminalInput}
-                    onChange={(e) => {
-                      setTerminalInput(e.target.value);
-                      playSynthTick("keypress", isMuted);
-                    }}
-                    placeholder="Type 'help'..."
-                    className="bg-transparent border-none outline-none text-[10px] text-foreground font-mono w-full"
-                  />
-                </form>
+            {/* Custom Proposal Card */}
+            <div className="p-6 rounded-2xl border border-border bg-surface flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Custom Proposal</span>
+                <h4 className="font-display font-extrabold text-base uppercase text-[#fff] mt-2 mb-4">Included in Scope</h4>
+                <ul className="space-y-2 text-[10px] font-mono text-muted-foreground">
+                  {PROPOSAL_DELIVERABLES.slice(0, 7).map((d) => (
+                    <li key={d} className="flex items-center gap-1.5">
+                      <span className="size-1 rounded-full bg-accent" />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="border-t border-border/60 pt-4 mt-6 text-[10px] text-muted-foreground/60 font-mono">
+                Flexible terms
               </div>
             </div>
 
-            {/* IDE Widget (col-span-7) */}
-            <div className="col-span-12 md:col-span-7 flex flex-col">
-              <div className="flex-1 rounded-2xl border border-border bg-surface/30 overflow-hidden shadow-lg flex flex-col justify-between">
-                
-                {/* Titlebar */}
-                <div className="bg-background/80 border-b border-border px-4 py-2.5 flex items-center justify-between font-mono text-[10px] text-muted-foreground">
-                  <div className="flex items-center gap-1.5">
-                    <div className="size-2 rounded-full bg-red-500/80" />
-                    <div className="size-2 rounded-full bg-yellow-500/80" />
-                    <div className="size-2 rounded-full bg-green-500/80" />
-                  </div>
-                  <span>Nainshul - CodeWorkspace</span>
-                  <div className="w-8" />
-                </div>
-
-                {/* Subheader Tabs */}
-                <div className="bg-background/40 border-b border-border flex items-center justify-between">
-                  <div className="flex">
-                    {(Object.keys(IDE_FILES) as Array<keyof typeof IDE_FILES>).map((fileName) => (
-                      <button
-                        key={fileName}
-                        onClick={() => {
-                          setActiveFile(fileName);
-                          setIdeView("code");
-                          playSynthTick("click", isMuted);
-                        }}
-                        className={`px-3.5 py-1.5 border-r border-border text-[9px] font-mono flex items-center gap-1.5 cursor-pointer transition-colors ${
-                          activeFile === fileName && ideView === "code"
-                            ? "bg-surface text-foreground border-b-2 border-b-accent font-bold"
-                            : "text-muted-foreground hover:bg-surface/20"
-                        }`}
-                      >
-                        <Folder className="size-2.5 text-muted-foreground" />
-                        {fileName}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex border-l border-border font-mono text-[9px]">
-                    <button
-                      onClick={() => {
-                        setIdeView("code");
-                        playSynthTick("click", isMuted);
-                      }}
-                      className={`px-3 py-1.5 cursor-pointer ${ideView === "code" ? "bg-surface text-accent font-semibold" : "text-muted-foreground"}`}
-                    >
-                      Code
-                    </button>
-                    <button
-                      onClick={() => {
-                        setIdeView("preview");
-                        playSynthTick("click", isMuted);
-                      }}
-                      className={`px-3 py-1.5 border-l border-border cursor-pointer flex items-center gap-1 ${ideView === "preview" ? "bg-surface text-accent font-semibold" : "text-muted-foreground"}`}
-                    >
-                      <Play className="size-2 fill-accent text-accent" /> Run
-                    </button>
-                  </div>
-                </div>
-
-                {/* Workspace area */}
-                <div className="p-4 font-mono text-[10px] overflow-x-auto min-h-[190px] bg-background/5">
-                  {ideView === "code" ? (
-                    <pre className="text-muted-foreground select-text leading-relaxed">
-                      <code>
-                        {IDE_FILES[activeFile].split("\n").map((line, idx) => {
-                          let highlighted = line;
-                          if (line.includes("const ") || line.includes("import ") || line.includes("export ")) {
-                            highlighted = line
-                              .replace(/(const |import |export |from |return )/g, '<span class="text-accent">$1</span>')
-                              .replace(/('([^']+)')/g, '<span class="text-emerald-400">$1</span>');
-                          } else if (line.includes('"')) {
-                            highlighted = line.replace(/("([^"]+)")/g, '<span class="text-emerald-400">$1</span>');
-                          }
-                          return (
-                            <div key={idx} className="flex gap-3">
-                              <span className="w-5 text-right select-none text-muted-foreground/35">{idx + 1}</span>
-                              <span dangerouslySetInnerHTML={{ __html: highlighted || "&nbsp;" }} />
-                            </div>
-                          );
-                        })}
-                      </code>
-                    </pre>
-                  ) : (
-                    <div className="flex items-center justify-center min-h-[160px] rounded-lg border border-dashed border-border/80 bg-surface/10 p-4">
-                      {activeFile === "Nainshul.tsx" && (
-                        <div className="w-full max-w-xs rounded-xl border border-border bg-surface p-4 shadow-lg text-left">
-                          <h4 className="text-xs font-display font-extrabold">Nainshul Khatkar</h4>
-                          <p className="text-[9px] text-accent font-mono mb-1.5">@EEBU4o4</p>
-                          <p className="text-[10px] text-muted-foreground mb-3 leading-relaxed">
-                            BCA 2024–28 student designing modular frontend blueprints.
-                          </p>
-                          <div className="flex items-center gap-1.5 text-[8px] font-semibold">
-                            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            <span>Available for internships</span>
-                          </div>
-                        </div>
-                      )}
-
-                      {activeFile === "skills.json" && (
-                        <div className="w-full max-w-xs bg-surface p-4 border border-border rounded-xl">
-                          <h4 className="text-xs font-semibold mb-2.5 font-display">Core Competency</h4>
-                          <div className="space-y-2 text-[10px]">
-                            {[
-                              { name: "React / Frontend", value: "90%" },
-                              { name: "UI Design (Figma)", value: "85%" },
-                              { name: "TypeScript / JS", value: "80%" },
-                            ].map((sk) => (
-                              <div key={sk.name}>
-                                <div className="flex justify-between text-[8px] mb-0.5 font-mono">
-                                  <span>{sk.name}</span>
-                                  <span className="text-accent">{sk.value}</span>
-                                </div>
-                                <div className="h-1 bg-background rounded-full overflow-hidden">
-                                  <div className="h-full bg-accent" style={{ width: sk.value }} />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {activeFile === "achievements.md" && (
-                        <div className="w-full max-w-xs bg-surface p-4 border border-border rounded-xl space-y-2 text-[10px]">
-                          <h4 className="text-xs font-semibold font-display border-b border-border pb-1">Trophy Shelf</h4>
-                          <div className="space-y-1.5">
-                            <div className="flex items-start gap-2">
-                              <Trophy className="size-3.5 text-accent mt-0.5 shrink-0" />
-                              <div>
-                                <p className="font-bold">1st - Sustainable AI Hackathon</p>
-                                <p className="text-[8px] text-muted-foreground">GCB Bahadurgarh</p>
-                              </div>
-                            </div>
-                            <div className="flex items-start gap-2">
-                              <Trophy className="size-3.5 text-accent mt-0.5 shrink-0" />
-                              <div>
-                                <p className="font-bold">2nd - Code for NexGen</p>
-                                <p className="text-[8px] text-muted-foreground">Jhajjar Exhibition</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-
+            {/* Individual Pricing Card */}
+            <div className="p-6 rounded-2xl border border-border bg-surface flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Individual Pricing</span>
+                <h4 className="font-display font-extrabold text-base uppercase text-[#fff] mt-2 mb-4">Introductory Call</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  The cost is calculated individually after a briefing and an introductory call. We analyze your requirements and outline a transparent budget.
+                </p>
+              </div>
+              <div className="border-t border-border/60 pt-4 mt-6 flex justify-between items-center text-[10px] font-mono">
+                <span className="text-muted-foreground/60">Calculate cost</span>
+                <button 
+                  onClick={() => scrollTo("contact")}
+                  className="text-accent font-bold hover:underline cursor-pointer"
+                >
+                  Book Call
+                </button>
               </div>
             </div>
 
           </div>
 
-          {/* Hackathon Wins row */}
-          <div className="pt-4 grid sm:grid-cols-3 gap-6">
+        </div>
+      </section>
+
+      {/* Achievements Section */}
+      <section id="achievements" className="px-6 md:px-12 py-16 md:py-32 border-b border-border bg-surface/10">
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          <div className="space-y-2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">06 / STANDOUTS</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#fff]">
+              The Wall of My Achievements
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-md">
+              I have participated in regional hackathons and contests, refining my skills and delivering visual systems under high-speed requirements.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-6">
             {ACHIEVEMENTS.map((ach) => (
               <div 
                 key={ach.title}
-                className="bg-surface border border-border p-5 rounded-xl flex items-center justify-between"
+                className="bg-surface border border-border p-6 rounded-2xl flex items-center justify-between hover:border-accent/40 transition-colors"
               >
                 <div className="space-y-1">
                   <span className="text-[9px] font-mono text-accent font-bold uppercase tracking-wider">{ach.place}</span>
                   <h4 className="font-display font-extrabold text-xs uppercase text-foreground">{ach.title}</h4>
                   <p className="text-[9px] text-muted-foreground font-mono">{ach.where}</p>
                 </div>
-                <Trophy className="size-5 text-accent opacity-60" />
+                <Trophy className="size-5 text-accent opacity-60 animate-pulse" />
               </div>
             ))}
           </div>
@@ -916,12 +815,12 @@ function Portfolio() {
       </section>
 
       {/* FAQ Accordion Section */}
-      <section id="faq" className="px-6 md:px-12 py-16 md:py-32 border-b border-border bg-surface/10">
+      <section id="faq" className="px-6 md:px-12 py-16 md:py-32 border-b border-border">
         <div className="max-w-4xl mx-auto space-y-12">
           
           <div className="text-center space-y-2">
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">06 / ANSWERS</span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">07 / MY ANSWERS</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#fff]">
               Frequently Asked Questions
             </h2>
           </div>
@@ -966,10 +865,10 @@ function Portfolio() {
         <div className="max-w-4xl mx-auto text-center space-y-8">
           
           <div className="space-y-4">
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">07 / CONNECT</span>
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight leading-none">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">08 / CONTACT</span>
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight leading-none text-[#fff]">
               Let's create something <br />
-              <span className="font-serif-italic text-accent lowercase">special</span>
+              <span className="font-serif-italic text-muted-foreground lowercase">special</span>
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
               Have an interesting challenge or a project? Drop a mail or book a direct developer consultation call.
@@ -999,14 +898,14 @@ function Portfolio() {
           </div>
 
           {/* Social connections list */}
-          <div className="flex justify-center gap-6 pt-8 border-t border-border font-mono text-[10px]">
+          <div className="flex justify-center gap-6 pt-8 border-t border-border font-mono text-[10px] text-muted-foreground">
             {SOCIALS.map((soc) => (
               <a
                 key={soc.label}
                 href={soc.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent flex items-center gap-1"
+                className="hover:text-accent flex items-center gap-1"
                 onMouseEnter={() => playSynthTick("hover", isMuted)}
                 onClick={() => playSynthTick("click", isMuted)}
               >
@@ -1020,12 +919,208 @@ function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8 bg-surface/20">
+      <footer className="border-t border-border py-8 bg-surface/20 select-none">
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left text-[9px] font-mono text-muted-foreground/60 uppercase tracking-widest">
           <p>© {new Date().getFullYear()} Nainshul Khatkar · All Rights Reserved</p>
           <p>Created in Framer-to-React Style</p>
         </div>
       </footer>
+
+      {/* Collapsible Interactive Developer Workspace Panel */}
+      <div 
+        className={`fixed bottom-0 inset-x-0 z-50 border-t border-border bg-background/95 shadow-2xl transition-transform duration-500 ease-in-out ${
+          devWorkspaceOpen ? "translate-y-0" : "translate-y-[calc(100%-48px)]"
+        }`}
+      >
+        {/* Toggle bar */}
+        <button
+          onClick={() => {
+            setDevWorkspaceOpen(!devWorkspaceOpen);
+            playSynthTick("click", isMuted);
+          }}
+          className="w-full h-12 bg-surface hover:bg-surface-2 border-b border-border flex items-center justify-between px-6 font-mono text-[10px] font-bold uppercase tracking-wider text-accent cursor-pointer"
+        >
+          <span className="flex items-center gap-2">
+            <TerminalIcon className="size-4 animate-pulse" />
+            <span>{devWorkspaceOpen ? "Close Developer Console" : "💻 Launch Developer Workspace (Terminal & IDE)"}</span>
+          </span>
+          <span className="text-muted-foreground">
+            {devWorkspaceOpen ? "CLOSE" : "LAUNCH"}
+          </span>
+        </button>
+
+        {/* Panel Content (Terminal + IDE) */}
+        <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch max-w-7xl mx-auto max-h-[450px] overflow-y-auto no-scrollbar">
+          
+          {/* Terminal Widget (col-span-5) */}
+          <div className="col-span-12 md:col-span-5 flex flex-col">
+            <div className="flex-1 rounded-2xl border border-border bg-surface p-4 flex flex-col justify-between min-h-[220px]">
+              <div>
+                <div className="flex justify-between items-center mb-3 border-b border-border/50 pb-2 font-mono text-[10px]">
+                  <span className="flex items-center gap-1.5 text-muted-foreground">
+                    <TerminalIcon className="size-3.5 text-accent" /> zsh - console emulator
+                  </span>
+                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+
+                <div className="h-32 overflow-y-auto font-mono text-[10px] flex flex-col gap-1.5 no-scrollbar bg-background/30 p-2.5 rounded-lg border border-border/40 select-text">
+                  {terminalHistory.map((item, idx) => (
+                    <div key={idx} className="whitespace-pre-wrap leading-normal">
+                      {item.type === "input" ? (
+                        <span className="text-accent">eebu4o4$ <span className="text-foreground">{item.text}</span></span>
+                      ) : (
+                        <span className="text-muted-foreground/80">{item.text}</span>
+                      )}
+                    </div>
+                  ))}
+                  <div ref={terminalBottomRef} />
+                </div>
+              </div>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  executeTerminalCommand(terminalInput);
+                }}
+                className="mt-3 border-t border-border/40 pt-2 flex items-center"
+              >
+                <span className="text-accent font-mono text-[10px] mr-1 shrink-0">eebu4o4$</span>
+                <input
+                  type="text"
+                  value={terminalInput}
+                  onChange={(e) => {
+                    setTerminalInput(e.target.value);
+                    playSynthTick("keypress", isMuted);
+                  }}
+                  placeholder="Type 'help'..."
+                  className="bg-transparent border-none outline-none text-[10px] text-foreground font-mono w-full"
+                />
+              </form>
+            </div>
+          </div>
+
+          {/* IDE Widget (col-span-7) */}
+          <div className="col-span-12 md:col-span-7 flex flex-col">
+            <div className="flex-1 rounded-2xl border border-border bg-surface overflow-hidden flex flex-col justify-between min-h-[220px]">
+              
+              {/* Tabs */}
+              <div className="bg-background/40 border-b border-border flex items-center justify-between">
+                <div className="flex">
+                  {(Object.keys(IDE_FILES) as Array<keyof typeof IDE_FILES>).map((fileName) => (
+                    <button
+                      key={fileName}
+                      onClick={() => {
+                        setActiveFile(fileName);
+                        setIdeView("code");
+                        playSynthTick("click", isMuted);
+                      }}
+                      className={`px-3 py-1.5 border-r border-border text-[9px] font-mono flex items-center gap-1.5 cursor-pointer ${
+                        activeFile === fileName && ideView === "code"
+                          ? "bg-surface text-foreground border-b-2 border-b-accent font-bold"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      <Folder className="size-2.5 text-muted-foreground" />
+                      {fileName}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex border-l border-border font-mono text-[9px]">
+                  <button
+                    onClick={() => {
+                      setIdeView("code");
+                      playSynthTick("click", isMuted);
+                    }}
+                    className={`px-3 py-1.5 cursor-pointer ${ideView === "code" ? "bg-surface text-accent font-semibold" : "text-muted-foreground"}`}
+                  >
+                    Code
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIdeView("preview");
+                      playSynthTick("click", isMuted);
+                    }}
+                    className={`px-3 py-1.5 border-l border-border cursor-pointer flex items-center gap-1 ${ideView === "preview" ? "bg-surface text-accent font-semibold" : "text-muted-foreground"}`}
+                  >
+                    <Play className="size-2.5 fill-accent text-accent" /> Run
+                  </button>
+                </div>
+              </div>
+
+              {/* Viewport */}
+              <div className="p-3 font-mono text-[9px] overflow-x-auto h-40 bg-background/10">
+                {ideView === "code" ? (
+                  <pre className="text-muted-foreground select-text leading-relaxed">
+                    <code>
+                      {IDE_FILES[activeFile].split("\n").map((line, idx) => {
+                        let highlighted = line;
+                        if (line.includes("const ") || line.includes("import ") || line.includes("export ")) {
+                          highlighted = line
+                            .replace(/(const |import |export |from |return )/g, '<span class="text-accent">$1</span>')
+                            .replace(/('([^']+)')/g, '<span class="text-emerald-400">$1</span>');
+                        } else if (line.includes('"')) {
+                          highlighted = line.replace(/("([^"]+)")/g, '<span class="text-emerald-400">$1</span>');
+                        }
+                        return (
+                          <div key={idx} className="flex gap-2">
+                            <span className="w-5 text-right select-none text-muted-foreground/35">{idx + 1}</span>
+                            <span dangerouslySetInnerHTML={{ __html: highlighted || "&nbsp;" }} />
+                          </div>
+                        );
+                      })}
+                    </code>
+                  </pre>
+                ) : (
+                  <div className="flex items-center justify-center h-full bg-surface/5 p-2 text-center text-xs">
+                    {activeFile === "Nainshul.tsx" && (
+                      <div className="w-full max-w-xs rounded-xl border border-border bg-surface p-3 shadow-md text-left">
+                        <h4 className="text-xs font-display font-extrabold">Nainshul Khatkar</h4>
+                        <p className="text-[8px] text-accent font-mono mb-1">@EEBU4o4</p>
+                        <p className="text-[9px] text-muted-foreground mb-2 leading-relaxed">
+                          BCA student (2024-28) designing and compiling React code.
+                        </p>
+                        <span className="text-[8px] font-semibold text-emerald-500">Available</span>
+                      </div>
+                    )}
+
+                    {activeFile === "skills.json" && (
+                      <div className="w-full max-w-xs bg-surface p-3 border border-border rounded-xl">
+                        <div className="space-y-1.5">
+                          {[
+                            { name: "React / Frontend", value: "90%" },
+                            { name: "Figma UI", value: "85%" },
+                          ].map((sk) => (
+                            <div key={sk.name}>
+                              <div className="flex justify-between text-[8px] font-mono">
+                                <span>{sk.name}</span>
+                                <span className="text-accent">{sk.value}</span>
+                              </div>
+                              <div className="h-1 bg-background rounded-full overflow-hidden">
+                                <div className="h-full bg-accent" style={{ width: sk.value }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {activeFile === "achievements.md" && (
+                      <div className="w-full max-w-xs bg-surface p-3 border border-border rounded-xl space-y-1 text-left text-[9px]">
+                        <p className="font-bold border-b border-border pb-0.5">Achievements</p>
+                        <p>🏆 1st - Sustainable AI Hackathon</p>
+                        <p>🏆 2nd - Code for NexGen</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
 
     </div>
   );
