@@ -19,12 +19,11 @@ import {
   Monitor, 
   Folder, 
   Award,
-  BookOpen,
-  User,
   Volume2,
   VolumeX,
-  Cpu,
-  HardDrive
+  Plus,
+  Minus,
+  HelpCircle
 } from "lucide-react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import projectCrop from "@/assets/project-crop.jpg";
@@ -36,33 +35,40 @@ export const Route = createFileRoute("/")({
 });
 
 type Theme = "astro" | "cyberpunk" | "slate" | "amber";
-type GridStyle = "dots" | "lines" | "none";
 
-const SKILLS = [
-  "HTML / CSS / JS",
-  "React & Next.js",
-  "UI / UX Design",
-  "Figma",
-  "Tailwind CSS",
-  "TypeScript",
-  "Python",
-  "Java",
-  "C / C++",
-  "REST APIs",
-  "Prototyping",
-  "Design Systems",
-];
-
-const SOCIALS = [
-  { label: "GitHub", href: "https://github.com/Nainshul", Icon: Github },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/nainshul-khatkar-8ba462394/", Icon: Linkedin },
-  { label: "Twitter / X", href: "https://x.com/nainshul_", Icon: Twitter },
-  { label: "Email", href: "mailto:nainshulkhatker@gmail.com", Icon: Mail },
+const SERVICES = [
+  {
+    num: "01",
+    title: "Web Design",
+    description: "Creating websites that perfectly balance bold aesthetics with functionality for maximum user engagement.",
+    bullets: ["Custom Web Design", "Figma Prototyping", "Animations & Interactions", "Responsive Layouts", "SEO & Optimization"],
+    time: "From 20 working days",
+  },
+  {
+    num: "02",
+    title: "Mobile UI Design",
+    description: "Designing native and intuitive mobile application experiences across iOS and Android platforms.",
+    bullets: ["Native iOS Design", "Android App Design", "Cross-Platform UI System", "User Journeys", "Micro-Interactions"],
+    time: "From 25 working days",
+  },
+  {
+    num: "03",
+    title: "Redesign Services",
+    description: "Revitalizing existing digital products with fresh UI systems and improved user experience strategy.",
+    bullets: ["UX/UI Audits", "Design System Updates", "User Research & A/B Testing", "Conversion Optimization", "Brand Consistency"],
+    time: "From 15 working days",
+  },
+  {
+    num: "04",
+    title: "Design Consultation",
+    description: "Strategic design guidance and expert advice to help you make informed decisions about your digital presence.",
+    bullets: ["UX Audit & Strategy", "Technical Consultation", "Design Reviews", "Team Mentoring", "UI/UX Best Practices"],
+    time: "From 1 working day",
+  },
 ];
 
 const PROJECTS = [
   {
-    id: "crop",
     title: "AI Crop Disease Detection",
     logoText: "CropEye AI",
     roleText: "Lead Developer",
@@ -70,11 +76,9 @@ const PROJECTS = [
     tags: ["Computer Vision", "AI Diagnostic", "React", "Python"],
     year: "2024",
     blurb: "A machine learning crop diagnosis app that helps farmers detect leaf anomalies, tracks local soil moisture metrics, and pushes live crop-saving notifications.",
-    bgClass: "bg-white text-black",
-    category: "ai-ml",
+    bgClass: "bg-[#e1e1e1] text-black",
   },
   {
-    id: "zen",
     title: "Zen Study Flow",
     logoText: "ZenStudy",
     roleText: "UI/UX Developer",
@@ -82,30 +86,54 @@ const PROJECTS = [
     tags: ["UI/UX", "Productivity", "Tailwind", "React"],
     year: "2024",
     blurb: "A focus-oriented study companion utilizing custom session tracking timers, distraction-shield blocks, and visual analytical metrics charts.",
-    bgClass: "bg-[#0a0a0a] text-white",
-    category: "frontend",
+    bgClass: "bg-[#121212] text-white border-t border-border/20",
   },
 ];
 
+const PROCESS_STEPS = [
+  { step: "1", name: "Discovery & Briefing", desc: "Initial consultation, project goals definition, KPIs establishment, and technical requirements documentation." },
+  { step: "2", name: "Moodboard & References", desc: "Creation of a visual direction through moodboards and collection of stylistic references to align on style." },
+  { step: "3", name: "Design Concept", desc: "Development of unique visual design concepts for client selection and feedback refinement." },
+  { step: "4", name: "Research & Strategy", desc: "In-depth research of target audience, personas, and competitor/market UX benchmarks." },
+  { step: "5", name: "Site Architecture", desc: "Structure definition, detailed sitemaps, page hierarchy, and interaction wireframes." },
+  { step: "6", name: "Content Strategy", desc: "Audit and planning of copy, media assets, SEO strategy, and division of delivery roles." },
+  { step: "7", name: "UI Design", desc: "Creation of detailed adaptive UI layouts for all pages across desktop, tablet, and mobile breakpoints." },
+  { step: "8", name: "Development", desc: "Technical planning, Framer CMS setup, integration of third-party widgets, and custom code builds." },
+  { step: "9", name: "Testing & QA", desc: "Comprehensive cross-device, cross-browser, and SEO check to guarantee launch quality." },
+  { step: "10", name: "Launch & Support", desc: "Website launch with domain setups, DNS configurations, and post-launch support." }
+];
+
 const ACHIEVEMENTS = [
+  { place: "1st Place", title: "Sustainable AI Hackathon", where: "GCB Bahadurgarh" },
+  { place: "2nd Place", title: "Code for NexGen Exhibition", where: "Jhajjar" },
+  { place: "Top 10", title: "National AI-for-All", where: "India Contributor" },
+];
+
+const FAQS = [
   {
-    place: "1st Place",
-    title: "AI for Sustainable Development Hackathon",
-    where: "GCB, Bahadurgarh",
-    description: "Built an intelligent computer vision system for leaf disease classification."
+    q: "What is your experience and do you have case studies?",
+    a: "I have worked on web design and digital product development projects across multiple disciplines including fintech, e-commerce, and productivity tools. You can review my selected works in the 'Cases' section of this page, and check my real-time code tabs in the built-in workspace."
   },
   {
-    place: "2nd Place",
-    title: "Code for NexGen Exhibition",
-    where: "Jhajjar",
-    description: "Presented interactive distraction-blocking desktop environment prototypes."
+    q: "How should project content be structured?",
+    a: "I kindly ask you to structure all text prototypes, logos, and images in separate folders (e.g. team photos, copywriting in Word/Docs with clear blocks). This helps speed up the layout process significantly."
   },
   {
-    place: "Top 10",
-    title: "National AI-for-All Competition",
-    where: "India",
-    description: "Ranked in the top 2% of contributors designing local sustainability datasets."
+    q: "What are the typical project timelines?",
+    a: "Timeline depends on complexity. The minimum timeframe for quality implementation is 20+ working days, allowing for detailed research, design system styling, building, and thorough testing."
   },
+  {
+    q: "How does payment work?",
+    a: "I usually operate on a 50/50 scheme (advance payment and final payment upon launch) or stage-by-stage milestones after completing each project phase."
+  },
+  {
+    q: "Can I request revisions during the project?",
+    a: "Yes! Each phase includes a comprehensive revision package. Revisions should be formatted in one clear document with screenshots to avoid confusion."
+  },
+  {
+    q: "Do you place your label on the website?",
+    a: "I place a small author label in the website footer. This serves as an author's mark. If you prefer to remove it, the project cost increases by 20%."
+  }
 ];
 
 const IDE_FILES = {
@@ -114,44 +142,35 @@ const IDE_FILES = {
 export const DeveloperProfile: React.FC = () => {
   const profile = {
     name: 'Nainshul Khatkar',
-    handle: 'EEBU4o4',
     role: 'UI/UX & Frontend Developer',
-    location: 'Haryana, India',
     education: 'BCA (2024 - 2028)',
-    status: 'Open for Summer Internships & Freelance'
+    status: 'Open to interesting projects'
   };
 
   return (
-    <div className="profile-container p-6 rounded-2xl bg-surface/50 border border-border">
-      <h2 className="text-3xl font-display font-bold text-accent">{profile.name}</h2>
-      <p className="text-sm font-mono text-muted-foreground">{profile.role}</p>
-      
+    <div className="profile p-6 rounded-2xl bg-surface border border-border">
+      <h2 className="text-2xl font-display font-extrabold text-accent">{profile.name}</h2>
+      <p className="text-xs font-mono text-muted-foreground mt-1">{profile.role}</p>
       <div className="mt-4 flex items-center gap-2 text-xs">
-        <span className="inline-block size-2 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
         <span>{profile.status}</span>
       </div>
     </div>
   );
 };`,
   "skills.json": `{
-  "languages": ["JavaScript", "TypeScript", "Python", "Java", "C", "C++"],
-  "frontend": ["React.js", "Next.js", "Tailwind CSS", "HTML5", "CSS3"],
-  "design": ["UI/UX Design", "Figma Prototyping", "Design Systems"],
-  "apis_backend": ["REST APIs", "Node.js basics", "Flask (Python)"]
+  "languages": ["JS", "TS", "Python", "Java", "C++"],
+  "frontend": ["React", "Next.js", "Tailwind CSS", "HTML5"],
+  "design": ["UI/UX Design", "Figma Prototyping", "Design Systems"]
 }`,
-  "achievements.md": `# Nainshul's Achievements
+  "achievements.md": `# Achievements
 
-* **1st Place Win** - *AI for Sustainable Development Hackathon (GCB)*
-  - Developed deep-learning vision models for crop foliage classification.
-  
-* **2nd Place Win** - *Code for NexGen Exhibition (Jhajjar)*
-  - Designed responsive study layout concepts utilizing productivity filters.
-  
-* **Top 10 Finalist** - *National AI-for-All Competition (India)*
-  - Organized model tuning metrics for sustainable environment dashboards.`
+* **1st Place** - *Sustainable AI Hackathon (GCB)*
+* **2nd Place** - *Code for NexGen Exhibition (Jhajjar)*
+* **Top 10** - *National AI-for-All Competition (India)*`
 };
 
-// Web Audio API Synthesized Audio UI Helper
+// Audio UI synthesizer
 let audioCtx: AudioContext | null = null;
 const playSynthTick = (type: "hover" | "click" | "keypress", isMuted: boolean) => {
   if (isMuted) return;
@@ -170,115 +189,47 @@ const playSynthTick = (type: "hover" | "click" | "keypress", isMuted: boolean) =
 
     if (type === "hover") {
       osc.type = "sine";
-      osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(1100, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.012, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.03);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.04);
+      osc.stop(audioCtx.currentTime + 0.035);
     } else if (type === "click") {
       osc.type = "triangle";
-      osc.frequency.setValueAtTime(700, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.08);
-      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.09);
+      osc.frequency.setValueAtTime(650, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.07);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.1);
+      osc.stop(audioCtx.currentTime + 0.09);
     } else if (type === "keypress") {
       osc.type = "sine";
-      osc.frequency.setValueAtTime(550, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.02);
+      osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.015);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.025);
+      osc.stop(audioCtx.currentTime + 0.02);
     }
   } catch (e) {
-    console.warn("Audio Context init failed", e);
+    console.warn("Audio Context failed", e);
   }
 };
-
-// Reusable Bento Card Component with independent mouse spotlight tracking
-function BentoCard({ 
-  children, 
-  className = "", 
-  onClick,
-  isMuted = false 
-}: { 
-  children: React.ReactNode; 
-  className?: string; 
-  onClick?: () => void;
-  isMuted?: boolean;
-}) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => {
-        setHovered(true);
-        playSynthTick("hover", isMuted);
-      }}
-      onMouseLeave={() => setHovered(false)}
-      onClick={() => {
-        if (onClick) {
-          playSynthTick("click", isMuted);
-          onClick();
-        }
-      }}
-      className={`bento-card p-6 ${className} ${onClick ? "cursor-pointer" : ""}`}
-    >
-      {hovered && (
-        <div
-          className="pointer-events-none absolute -inset-px rounded-[inherit] transition-opacity duration-300 opacity-100"
-          style={{
-            background: `radial-gradient(150px circle at ${coords.x}px ${coords.y}px, color-mix(in srgb, var(--accent) 15%, transparent), transparent 80%)`
-          }}
-        />
-      )}
-      <div className="relative z-10 h-full w-full flex flex-col justify-between">
-        {children}
-      </div>
-    </div>
-  );
-}
 
 function Portfolio() {
   const [theme, setTheme] = useState<Theme>("astro");
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [gridStyle, setGridStyle] = useState<GridStyle>("dots");
-  
-  // Interactive Cross-Widget states
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-  const [projectFilter, setProjectFilter] = useState<string>("all");
-
-  const filteredProjects = useMemo(() => {
-    if (projectFilter === "all") return PROJECTS;
-    return PROJECTS.filter((p) => p.category === projectFilter);
-  }, [projectFilter]);
-  
-  // OS Metrics mock fluctuation state
-  const [sysMetrics, setSysMetrics] = useState({ cpu: 4, ram: 14 });
-
-  // Live system clock
   const [sysTime, setSysTime] = useState("");
-
+  
+  // Interactive UI states
+  const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
+  const [activeProcessTab, setActiveProcessTab] = useState<number>(0);
+  
   // Terminal state
   const [terminalInput, setTerminalInput] = useState("");
   const [terminalHistory, setTerminalHistory] = useState<Array<{ type: "input" | "output"; text: string }>>([
-    { type: "output", text: "EEBU4o4 BentoOS Console v3.0.0" },
-    { type: "output", text: "Type 'help' to inspect system routines." },
+    { type: "output", text: "EEBU4o4 Bold-Workspace Console v3.1.0" },
+    { type: "output", text: "Type 'help' to print options." },
   ]);
   const terminalBottomRef = useRef<HTMLDivElement>(null);
 
@@ -286,15 +237,7 @@ function Portfolio() {
   const [activeFile, setActiveFile] = useState<keyof typeof IDE_FILES>("Nainshul.tsx");
   const [ideView, setIdeView] = useState<"code" | "preview">("code");
 
-  // Chatbot state
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatHistory, setChatHistory] = useState<Array<{ sender: "bot" | "user"; text: string }>>([
-    { sender: "bot", text: "Hello! I am EEBU, your OS portfolio assistant. How can I help you inspect Nainshul's details?" },
-  ]);
-  const [isBotTyping, setIsBotTyping] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-
-  // Theme configuration effect
+  // Sync theme
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove("theme-cyberpunk", "theme-slate", "theme-amber");
@@ -303,7 +246,7 @@ function Portfolio() {
     }
   }, [theme]);
 
-  // System time effect
+  // Clock
   useEffect(() => {
     const updateTime = () => {
       const d = new Date();
@@ -314,28 +257,11 @@ function Portfolio() {
     return () => clearInterval(interval);
   }, []);
 
-  // Fluctuating system metrics effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSysMetrics({
-        cpu: Math.floor(Math.random() * 8) + 2, // 2-10%
-        ram: Math.floor(Math.random() * 3) + 12 // 12-15%
-      });
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Scroll Terminal to bottom
+  // Scroll Terminal
   useEffect(() => {
     terminalBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [terminalHistory]);
 
-  // Scroll Chat to bottom
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatHistory, isBotTyping]);
-
-  // Terminal commands interpreter
   const executeTerminalCommand = (rawInput: string) => {
     const trimmed = rawInput.trim();
     if (!trimmed) return;
@@ -350,7 +276,7 @@ function Portfolio() {
       case "help":
         newHistory.push({
           type: "output",
-          text: "Commands:\n  about        - Learn about Nainshul\n  skills       - Print key skills\n  projects     - List current projects\n  achievements - Show hackathon wins\n  theme [t]    - Change theme (astro, cyberpunk, slate, amber)\n  clear        - Clear logs",
+          text: "Commands:\n  about        - Learn about Nainshul\n  skills       - Print key skills\n  projects     - List current projects\n  theme [t]    - Change theme (astro, cyberpunk, slate, amber)\n  clear        - Clear console history",
         });
         break;
       case "about":
@@ -369,12 +295,6 @@ function Portfolio() {
         newHistory.push({
           type: "output",
           text: "1. CropEye AI: Crop foliage classification app\n2. ZenStudy: Session tracking study companion",
-        });
-        break;
-      case "achievements":
-        newHistory.push({
-          type: "output",
-          text: "- 1st Place: Sustainable AI Hackathon\n- 2nd Place: NexGen Exhibition Jhajjar\n- Top 10: National AI-for-All",
         });
         break;
       case "clear":
@@ -403,88 +323,75 @@ function Portfolio() {
     setTerminalInput("");
   };
 
-  // Bot chat helper responses
-  const triggerBotResponse = (userPromptText: string) => {
-    playSynthTick("click", isMuted);
-    setChatHistory(prev => [...prev, { sender: "user", text: userPromptText }]);
-    setIsBotTyping(true);
-
-    setTimeout(() => {
-      let reply = "";
-      if (userPromptText.includes("Freelance")) {
-        reply = "Nainshul is currently open for freelance projects and summer internship opportunities! Drop a mail to nainshulkhatker@gmail.com.";
-      } else if (userPromptText.includes("Skills")) {
-        reply = "His core stack is React, Next.js, Tailwind CSS, and TypeScript. He is also fluent in Figma Design and Python programming.";
-      } else if (userPromptText.includes("Hackathons")) {
-        reply = "Nainshul took 1st place in the Sustainable AI Hackathon at GCB Bahadurgarh and 2nd place in the NexGen Exhibition for block layouts.";
-      } else {
-        reply = "You can contact Nainshul directly at +91 94673 55251 or view his socials at github.com/Nainshul.";
-      }
-
-      setChatHistory(prev => [...prev, { sender: "bot", text: reply }]);
-      setIsBotTyping(false);
-    }, 800);
-  };
-
-  // Skill highlighting matcher
-  const isProjectMatchingSkill = (projectTags: string[]) => {
-    if (!selectedSkill) return true; // Show normal if no filter is clicked
-    
-    // Normalize tags to match selected skill
-    const normalizedFilter = selectedSkill.toLowerCase();
-    return projectTags.some(t => {
-      const normTag = t.toLowerCase();
-      if (normalizedFilter.includes("react") && normTag.includes("react")) return true;
-      if (normalizedFilter.includes("ui") && normTag.includes("ui")) return true;
-      if (normalizedFilter.includes("design") && normTag.includes("design")) return true;
-      if (normalizedFilter.includes("figma") && normTag.includes("design")) return true;
-      if (normalizedFilter.includes("tailwind") && normTag.includes("tailwind")) return true;
-      if (normalizedFilter.includes("python") && normTag.includes("python")) return true;
-      return normTag.includes(normalizedFilter) || normalizedFilter.includes(normTag);
-    });
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-body relative overflow-hidden transition-colors duration-300 pb-16 pt-24">
+    <div className="min-h-screen bg-background text-foreground font-body relative overflow-x-hidden selection:bg-accent selection:text-black">
       
-      {/* Decorative grids */}
-      {gridStyle === "dots" && (
-        <div className="absolute inset-0 -z-20 pointer-events-none dots-grid opacity-[0.25]" />
-      )}
-      {gridStyle === "lines" && (
-        <div className="absolute inset-0 -z-20 pointer-events-none lines-grid opacity-[0.05]" />
-      )}
+      {/* Decorative dotted grids */}
+      <div className="absolute inset-0 -z-20 pointer-events-none dots-grid opacity-[0.15]" />
 
-      {/* OS System Header Bar */}
-      <header className="fixed top-4 inset-x-4 z-50 border border-border bg-surface/35 backdrop-blur-xl rounded-full h-14 flex items-center justify-between px-6 transition-colors select-none">
+      {/* Sticky Header Navigation */}
+      <nav className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl h-16 flex items-center justify-between px-6 md:px-12 select-none select-none">
         <div className="flex items-center gap-3">
-          <span className="font-display font-extrabold text-sm tracking-wider">
-            EEBU4o4<span className="text-accent">.SYS</span>
-          </span>
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/35 text-[9px] font-mono text-emerald-500 font-bold uppercase tracking-widest">
-            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            SYSTEM ONLINE
+          <button 
+            onClick={() => scrollTo("hero")}
+            className="font-display font-black text-base tracking-wider hover:text-accent cursor-pointer"
+          >
+            N.KHATKAR
+          </button>
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/35 text-[8px] font-mono text-emerald-500 font-bold uppercase tracking-widest">
+            <span className="size-1 rounded-full bg-emerald-500 animate-pulse" />
+            AVAILABLE FOR PROJECTS
           </span>
         </div>
 
-        {/* System Time and Audio Switcher */}
-        <div className="flex items-center gap-4 text-xs font-mono">
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex items-center gap-8 text-xs font-mono">
+          {[
+            { label: "About", id: "about" },
+            { label: "Services", id: "services" },
+            { label: "Cases", id: "cases" },
+            { label: "Process", id: "process" },
+            { label: "Workspace", id: "workspace" },
+            { label: "FAQ", id: "faq" },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                scrollTo(item.id);
+                playSynthTick("click", isMuted);
+              }}
+              onMouseEnter={() => playSynthTick("hover", isMuted)}
+              className="hover:text-accent cursor-pointer transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {/* System Settings (Sound and Theme) */}
+        <div className="flex items-center gap-3 text-xs font-mono">
           <span className="text-muted-foreground/80 hidden xs:inline">{sysTime}</span>
-          
-          {/* Sound Synthesizer toggle switch */}
+
           <button
             onClick={() => setIsMuted(!isMuted)}
             className={`size-8 rounded-full border border-border grid place-items-center hover:border-accent/40 hover:bg-surface-2 transition-all cursor-pointer ${!isMuted ? "text-accent bg-accent/5" : "text-muted-foreground"}`}
             title={isMuted ? "Unmute UI sounds" : "Mute UI sounds"}
           >
-            {isMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+            {isMuted ? <VolumeX className="size-3.5" /> : <Volume2 className="size-3.5" />}
           </button>
 
           {/* Theme Dropdown */}
           <div className="relative">
             <button 
               onClick={() => setThemeMenuOpen(!themeMenuOpen)}
-              className="flex items-center gap-1.5 h-8 px-3 rounded-full bg-surface border border-border hover:border-accent/40 hover:bg-surface-2 transition-all cursor-pointer capitalize text-[10px] font-semibold"
+              className="flex items-center gap-1 h-8 px-3 rounded-full bg-surface border border-border hover:border-accent/40 hover:bg-surface-2 transition-all cursor-pointer capitalize text-[10px] font-semibold"
             >
               <Monitor className="size-3 text-accent" />
               <span>{theme}</span>
@@ -514,353 +421,339 @@ function Portfolio() {
             )}
           </div>
         </div>
-      </header>
+      </nav>
 
-      {/* Main BentoOS Grid Workspace */}
-      <main className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+      {/* Hero Section */}
+      <section id="hero" className="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20 border-b border-border">
+        <div className="max-w-6xl mx-auto w-full py-12 md:py-24 space-y-8">
           
-          {/* Profile Widget Card (col-span-4) */}
-          <div className="col-span-12 md:col-span-4 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1 flex flex-col justify-between">
-              <div className="flex flex-col items-center text-center">
-                
-                {/* Visual Avatar */}
-                <div className="relative group mb-4">
-                  <div className="absolute -inset-1 bg-accent/25 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  <div className="relative size-24 rounded-full overflow-hidden border-2 border-border p-1 bg-surface/80">
-                    <img 
-                      src={eebuBg} 
-                      alt="Nainshul Khatkar avatar" 
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                  <div className="absolute bottom-1 right-1 flex items-center gap-1 bg-background/90 border border-border px-2 py-0.5 rounded-full shadow-md">
-                    <span className="relative flex size-2">
-                      <span className="animate-ping absolute inline-flex size-full rounded-full bg-emerald-500 opacity-75" />
-                      <span className="relative inline-flex rounded-full size-2 bg-emerald-500" />
-                    </span>
-                    <span className="text-[8px] font-mono font-bold">OTW</span>
-                  </div>
-                </div>
+          <div className="space-y-4">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent block">
+              UI/UX &amp; FRONTEND DEVELOPER
+            </span>
+            <h1 className="font-display text-4xl sm:text-6xl md:text-8xl font-black leading-[0.95] tracking-tight uppercase">
+              Web <span className="font-serif-italic text-accent lowercase">Designer</span> &amp; <br />
+              Developer
+            </h1>
+          </div>
 
-                <h3 className="text-xl font-display font-extrabold tracking-tight">Nainshul Khatkar</h3>
-                <p className="text-xs font-mono text-accent mb-3">@EEBU4o4</p>
-                
-                <p className="text-xs text-muted-foreground/90 max-w-xs leading-relaxed mb-6 font-semibold">
-                  UI/UX Designer &amp; Frontend Developer structuring beautiful, high-performance interfaces.
-                </p>
-
-                <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/80 font-semibold mb-6">
-                  <MapPin className="size-3.5 text-accent" />
-                  <span>Haryana, India</span>
-                </div>
-              </div>
-
-              {/* Social Channels */}
-              <div className="space-y-2 mt-auto">
-                <div className="flex gap-2">
-                  {SOCIALS.map((soc) => (
-                    <a
-                      key={soc.label}
-                      href={soc.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 h-10 rounded-xl bg-surface border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-accent/40 hover:bg-surface-2 transition-all text-xs"
-                      onMouseEnter={() => playSynthTick("hover", isMuted)}
-                      onClick={() => playSynthTick("click", isMuted)}
-                    >
-                      <soc.Icon className="size-4" />
-                    </a>
-                  ))}
-                </div>
-                <a
-                  href="mailto:nainshulkhatker@gmail.com"
-                  className="w-full h-10 rounded-xl bg-foreground text-background flex items-center justify-center gap-2 text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer shadow"
+          <div className="grid md:grid-cols-12 gap-8 pt-8 items-start">
+            <div className="md:col-span-7">
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
+                I am a freelance UI/UX designer and frontend developer who moves from visual concepts to launched, high-performance websites. I combine structured codebases with bold, modern layout designs.
+              </p>
+            </div>
+            
+            <div className="md:col-span-5 space-y-4 font-mono text-xs">
+              <div className="flex gap-3">
+                <button
+                  onClick={() => scrollTo("cases")}
+                  className="group inline-flex items-center gap-2 h-11 px-5 bg-foreground text-background font-bold rounded-full transition-all hover:bg-accent hover:text-black cursor-pointer"
                   onMouseEnter={() => playSynthTick("hover", isMuted)}
                   onClick={() => playSynthTick("click", isMuted)}
                 >
-                  <Mail className="size-3.5" />
-                  <span>Get In Touch</span>
-                </a>
+                  Check My Projects :)
+                  <ArrowUpRight className="size-4" />
+                </button>
+                <button
+                  onClick={() => scrollTo("contact")}
+                  className="inline-flex items-center justify-center size-11 rounded-full border border-border hover:border-accent hover:text-accent transition-colors cursor-pointer"
+                  onMouseEnter={() => playSynthTick("hover", isMuted)}
+                  onClick={() => playSynthTick("click", isMuted)}
+                  title="Contact Me"
+                >
+                  <Mail className="size-4" />
+                </button>
               </div>
-            </BentoCard>
+            </div>
           </div>
 
-          {/* Interactive Skills Node Widget (col-span-4) */}
-          <div className="col-span-12 md:col-span-4 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="size-4 text-accent animate-pulse" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider">Skill Controller Panel</span>
-                </div>
-                
-                <p className="text-xs text-muted-foreground/85 mb-4 leading-relaxed">
-                  Click on any skill node to filter and highlight matching case study cards in real-time.
-                </p>
+        </div>
 
-                {/* Skill List Nodes */}
-                <div className="flex flex-wrap gap-1.5">
-                  {SKILLS.map((sk) => {
-                    const isSelected = selectedSkill === sk;
-                    return (
-                      <button
-                        key={sk}
-                        onClick={() => {
-                          setSelectedSkill(isSelected ? null : sk);
-                          playSynthTick("click", isMuted);
-                        }}
-                        className={`text-[9px] font-mono font-medium px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer ${
-                          isSelected
-                            ? "bg-accent border-accent text-white font-bold"
-                            : "bg-surface border-border text-muted-foreground hover:border-accent/40"
-                        }`}
-                      >
-                        {sk}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+        {/* Marquee Row */}
+        <div className="w-full overflow-hidden border-t border-border py-4 bg-surface/30 select-none">
+          <div className="flex whitespace-nowrap animate-marquee font-display font-black text-xs sm:text-sm tracking-widest uppercase gap-8">
+            <span>· UI/UX DESIGN · FIGMA PROTOTYPING · REACT MODULES · FRONTEND SYSTEM · CONVERSION OPTIMIZED · TAILWIND DESIGN · MOTION GRAPHICS · BRAND TRANSLATION ·</span>
+            <span>· UI/UX DESIGN · FIGMA PROTOTYPING · REACT MODULES · FRONTEND SYSTEM · CONVERSION OPTIMIZED · TAILWIND DESIGN · MOTION GRAPHICS · BRAND TRANSLATION ·</span>
+          </div>
+        </div>
+      </section>
 
-              {selectedSkill && (
-                <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-[9px] font-mono text-accent">
-                  <span>Filtered: {selectedSkill}</span>
-                  <button 
-                    onClick={() => {
-                      setSelectedSkill(null);
-                      playSynthTick("click", isMuted);
-                    }}
-                    className="hover:underline cursor-pointer"
-                  >
-                    Clear Filter
-                  </button>
-                </div>
-              )}
-            </BentoCard>
+      {/* About Section: My Story & Principles */}
+      <section id="about" className="px-6 md:px-12 py-16 md:py-32 border-b border-border">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-12 gap-12 items-start">
+          
+          <div className="md:col-span-5 space-y-4">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">01 / MY STORY</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none">
+              Design <span className="font-serif-italic text-accent lowercase">that</span> <br />
+              drives impact
+            </h2>
           </div>
 
-          {/* OS settings & System Monitor Widget (col-span-4) */}
-          <div className="col-span-12 md:col-span-4 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Cpu className="size-4 text-accent" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider">BentoOS Environment Panel</span>
-                </div>
-
-                <div className="space-y-4">
-                  {/* Grid background switcher */}
-                  <div>
-                    <label className="text-[10px] font-mono text-muted-foreground block mb-2">Workspace Grid Overlay:</label>
-                    <div className="grid grid-cols-3 gap-1 text-[9px] font-mono">
-                      {(["dots", "lines", "none"] as GridStyle[]).map((st) => (
-                        <button
-                          key={st}
-                          onClick={() => {
-                            setGridStyle(st);
-                            playSynthTick("click", isMuted);
-                          }}
-                          className={`h-8 rounded-lg border capitalize cursor-pointer transition-all ${gridStyle === st ? "bg-accent border-accent text-white" : "bg-surface border-border text-muted-foreground hover:border-accent/35"}`}
-                        >
-                          {st}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Fluctuating CPU/RAM monitors */}
-                  <div className="space-y-2 border-t border-border/50 pt-3">
-                    <div className="flex justify-between items-center text-[9px] font-mono text-muted-foreground">
-                      <span className="flex items-center gap-1"><Cpu className="size-3 text-accent" /> CPU Load</span>
-                      <span className="text-foreground font-semibold">{sysMetrics.cpu}%</span>
-                    </div>
-                    <div className="h-1 bg-surface-2 rounded-full overflow-hidden">
-                      <div className="h-full bg-accent transition-all duration-700" style={{ width: `${sysMetrics.cpu * 10}%` }} />
-                    </div>
-
-                    <div className="flex justify-between items-center text-[9px] font-mono text-muted-foreground pt-1">
-                      <span className="flex items-center gap-1"><HardDrive className="size-3 text-accent" /> RAM Usage</span>
-                      <span className="text-foreground font-semibold">{sysMetrics.ram}%</span>
-                    </div>
-                    <div className="h-1 bg-surface-2 rounded-full overflow-hidden">
-                      <div className="h-full bg-accent transition-all duration-700" style={{ width: `${sysMetrics.ram * 6}%` }} />
-                    </div>
-                  </div>
-                </div>
+          <div className="md:col-span-7 space-y-6 text-sm text-muted-foreground leading-relaxed">
+            <p className="text-foreground font-semibold text-base">
+              I believe design should translate a brand’s soul into an interactive visual language. When a website stands out, users form emotional connections with the product.
+            </p>
+            <p>
+              I am a Framer designer, Figma specialist, and React developer who builds custom experiences fast. Pursuing a BCA degree (2024–2028) in Haryana, India, I bridge the gap between creative visual layouts and clean typescript frontend compilation. 
+            </p>
+            
+            {/* Core Principles */}
+            <div className="grid sm:grid-cols-2 gap-6 pt-6 border-t border-border">
+              <div className="space-y-2">
+                <h4 className="font-display font-bold text-foreground text-sm uppercase">Brand Soul Translation</h4>
+                <p className="text-xs">I translate your brand's essence into a cohesive visual language. Your philosophy guides every pixel and transition.</p>
               </div>
-
-              <div className="mt-4 pt-3 border-t border-border/50 flex justify-between text-[9px] text-muted-foreground/60 font-mono">
-                <span>Core: Web3/Design</span>
-                <span>Buffer: Active</span>
+              <div className="space-y-2">
+                <h4 className="font-display font-bold text-foreground text-sm uppercase">Human-Centered Creativity</h4>
+                <p className="text-xs">Every design decision is made with your audience's real needs in mind, creating experiences that feel intuitive and engaging.</p>
               </div>
-            </BentoCard>
+              <div className="space-y-2">
+                <h4 className="font-display font-bold text-foreground text-sm uppercase">No Compromise Quality</h4>
+                <p className="text-xs">Whether it's a simple landing page or a complex React module, I maintain the same extreme attention to detail.</p>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-display font-bold text-foreground text-sm uppercase">Collaborative Partnership</h4>
+                <p className="text-xs">Your project is a creative partnership. I involve you in the process while bringing expertise to push boundaries.</p>
+              </div>
+            </div>
           </div>
 
-          {/* Selected Work Carousel Card (col-span-8) */}
-          <div className="col-span-12 md:col-span-8 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1">
-              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Folder className="size-4 text-accent" />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">03 / Case Studies</span>
-                  </div>
-                  <h3 className="text-xl font-display font-extrabold tracking-tight">Interactive Work Cards</h3>
-                </div>
-                
-                <div className="flex gap-1.5 text-xs font-mono">
-                  {[
-                    { label: "All", val: "all" },
-                    { label: "AI/ML", val: "ai-ml" },
-                    { label: "Frontend", val: "frontend" },
-                  ].map((btn) => (
-                    <button
-                      key={btn.val}
-                      onClick={() => {
-                        setProjectFilter(btn.val);
-                        playSynthTick("click", isMuted);
-                      }}
-                      className={`h-7 px-2.5 rounded-lg border text-[9px] transition-all cursor-pointer ${
-                        projectFilter === btn.val
-                          ? "bg-accent border-accent text-white"
-                          : "bg-surface border-border text-muted-foreground hover:border-accent/35"
-                      }`}
-                    >
-                      {btn.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+        </div>
+      </section>
 
-              {/* BlingBling Card Grid Layout */}
-              <div className="grid sm:grid-cols-2 gap-6">
-                {filteredProjects.map((p) => {
-                  const isMatching = isProjectMatchingSkill(p.tags);
-                  return (
-                    <div 
-                      key={p.id} 
-                      className={`group relative block rounded-2xl overflow-hidden border border-border bg-surface/20 transition-all duration-500 ${
-                        isMatching ? "opacity-100 scale-100" : "opacity-35 scale-[0.98]"
-                      } ${selectedSkill && isMatching ? "ring-2 ring-accent shadow-[0_0_20px_color-mix(in_srgb,var(--accent)_20%,transparent)]" : ""}`}
-                    >
-                      {/* Top Right Circle Arrow Badge */}
-                      <a 
-                        href={p.href}
-                        onClick={() => playSynthTick("click", isMuted)}
-                        className="absolute top-4 right-4 z-10 inline-flex items-center justify-center size-9 rounded-full bg-black text-white hover:bg-accent shadow-lg transition-all duration-300"
-                        title="View Case Study"
-                      >
-                        <ArrowUpRight className="size-4" />
-                      </a>
-                      
-                      {/* Image frame with 16/9 aspect-ratio */}
-                      <div className="relative w-full aspect-[16/9] overflow-hidden">
-                        <img 
-                          src={p.image} 
-                          alt={p.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
-                        
-                        {/* Categories overlay bottom right */}
-                        <div className="absolute right-3 bottom-2.5 flex flex-wrap gap-1">
-                          {p.tags.slice(0, 2).map((t) => (
-                            <span key={t} className="font-mono text-[8px] tracking-wider uppercase rounded-full px-2 py-0.5 bg-black/60 text-white border border-white/5">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Content block with styled background colors */}
-                      <div className={`px-5 py-4 flex flex-col justify-between ${p.bgClass}`}>
-                        <div className="flex items-center justify-between">
-                          <span className="font-display font-black text-xs tracking-wider uppercase">{p.logoText}</span>
-                          <span className="text-[9px] font-mono opacity-60 text-right">{p.roleText}</span>
-                        </div>
-                        <p className="text-[11px] leading-relaxed opacity-75 mt-2.5">{p.blurb}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </BentoCard>
+      {/* Services Section */}
+      <section id="services" className="px-6 md:px-12 py-16 md:py-32 border-b border-border bg-surface/10">
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">02 / SERVICES</span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+                My Professional Compass
+              </h2>
+            </div>
+            <p className="text-xs text-muted-foreground font-mono max-w-xs">
+              Tailored solutions, transparent processes, and no hidden fees.
+            </p>
           </div>
 
-          {/* zsh Developer Terminal Emulator Widget (col-span-4) */}
-          <div className="col-span-12 md:col-span-4 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3 border-b border-border/50 pb-2">
-                  <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5">
-                    <TerminalIcon className="size-3.5 text-accent" /> zsh - command console
-                  </span>
-                  <div className="flex gap-1">
-                    <div className="size-1.5 rounded-full bg-border" />
-                    <div className="size-1.5 rounded-full bg-border" />
-                  </div>
-                </div>
-
-                {/* Terminal outputs */}
-                <div className="h-44 overflow-y-auto font-mono text-[10px] flex flex-col gap-1.5 no-scrollbar bg-background/15 p-2 rounded-lg border border-border/40 select-text">
-                  {terminalHistory.map((item, idx) => (
-                    <div key={idx} className="whitespace-pre-wrap leading-normal">
-                      {item.type === "input" ? (
-                        <span className="text-accent">eebu4o4$ <span className="text-foreground">{item.text}</span></span>
-                      ) : (
-                        <span className="text-muted-foreground/80">{item.text}</span>
-                      )}
-                    </div>
-                  ))}
-                  <div ref={terminalBottomRef} />
-                </div>
-              </div>
-
-              {/* Terminal Form Input */}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  executeTerminalCommand(terminalInput);
-                }}
-                className="mt-3 border-t border-border/40 pt-2 flex items-center"
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+            {SERVICES.map((srv) => (
+              <div 
+                key={srv.num}
+                className="group relative p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all duration-300 flex flex-col justify-between"
               >
-                <span className="text-accent font-mono text-[10px] mr-1 shrink-0">eebu4o4$</span>
-                <input
-                  type="text"
-                  value={terminalInput}
-                  onChange={(e) => {
-                    setTerminalInput(e.target.value);
-                    playSynthTick("keypress", isMuted);
-                  }}
-                  placeholder="Type 'help'..."
-                  className="bg-transparent border-none outline-none text-[10px] text-foreground font-mono w-full"
-                />
-              </form>
-            </BentoCard>
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="font-mono text-xs text-accent font-bold">({srv.num})</span>
+                    <span className="text-[9px] font-mono text-muted-foreground/60 border border-border/80 px-2 py-0.5 rounded-full">{srv.time}</span>
+                  </div>
+                  <h3 className="font-display font-extrabold text-lg uppercase mb-3 text-foreground group-hover:text-accent transition-colors">{srv.title}</h3>
+                  <p className="text-xs text-muted-foreground/90 leading-relaxed mb-4">{srv.description}</p>
+                </div>
+                
+                <div className="border-t border-border/60 pt-4 mt-auto">
+                  <ul className="space-y-1 text-[10px] font-mono text-muted-foreground">
+                    {srv.bullets.map((b) => (
+                      <li key={b} className="flex items-center gap-1.5">
+                        <span className="size-1 rounded-full bg-accent" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* VS Code Mock IDE Editor Widget (col-span-8) */}
-          <div className="col-span-12 md:col-span-8 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1">
-              <div>
-                {/* IDE Titlebar */}
-                <div className="bg-background/80 border-b border-border px-4 py-2 flex items-center justify-between -mx-6 -mt-6">
+        </div>
+      </section>
+
+      {/* Cases / Portfolio Section */}
+      <section id="cases" className="px-6 md:px-12 py-16 md:py-32 border-b border-border">
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          <div className="space-y-2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">03 / CASE STUDIES</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+              Selected Work
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {PROJECTS.map((proj) => (
+              <div 
+                key={proj.title} 
+                className="group relative rounded-2xl overflow-hidden border border-border bg-surface/20 transition-all duration-500 hover:scale-[1.005]"
+              >
+                <div className="absolute top-4 right-4 z-10 inline-flex items-center justify-center size-10 rounded-full bg-black text-white hover:bg-accent transition-all duration-300 shadow-lg" title="View Project">
+                  <ArrowUpRight className="size-4.5" />
+                </div>
+
+                <div className="relative w-full aspect-[16/9] overflow-hidden">
+                  <img 
+                    src={proj.image} 
+                    alt={proj.title} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/35 to-transparent" />
+                  
+                  <span className="absolute top-4 left-4 text-[9px] font-mono uppercase tracking-widest px-2.5 py-1 rounded bg-background/80 backdrop-blur border border-border">
+                    {proj.year}
+                  </span>
+
+                  <div className="absolute right-4 bottom-3 flex flex-wrap gap-1">
+                    {proj.tags.map((t) => (
+                      <span key={t} className="font-mono text-[8px] tracking-wider uppercase rounded-full px-2.5 py-1 bg-black/60 text-white border border-white/5">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className={`px-6 py-5 flex flex-col justify-between ${proj.bgClass}`}>
+                  <div className="flex items-center justify-between">
+                    <span className="font-display font-extrabold text-xs tracking-wider uppercase">{proj.logoText}</span>
+                    <span className="text-[10px] font-mono opacity-60 text-right">{proj.roleText}</span>
+                  </div>
+                  <p className="text-xs leading-relaxed opacity-75 mt-3">{proj.blurb}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Process Roadmap Section */}
+      <section id="process" className="px-6 md:px-12 py-16 md:py-32 border-b border-border bg-surface/10">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-12 gap-12 items-start">
+          
+          <div className="md:col-span-5 space-y-4">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">04 / THE PLAN</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight leading-none">
+              Digital Design <br />
+              Process
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-xs leading-relaxed">
+              This roadmap outlines my standard workflow. Depending on project complexity and timeline, it can be fully customized.
+            </p>
+
+            {/* Quick step index tabs */}
+            <div className="grid grid-cols-5 gap-2 pt-6">
+              {PROCESS_STEPS.map((p, idx) => (
+                <button
+                  key={p.step}
+                  onClick={() => {
+                    setActiveProcessTab(idx);
+                    playSynthTick("click", isMuted);
+                  }}
+                  className={`h-9 font-mono text-xs font-bold border rounded-lg cursor-pointer transition-all ${activeProcessTab === idx ? "bg-accent border-accent text-black" : "bg-surface border-border text-muted-foreground hover:border-accent/40"}`}
+                >
+                  {p.step}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="md:col-span-7 bg-surface border border-border p-8 rounded-2xl relative shadow-xl min-h-[160px] flex flex-col justify-between">
+            <span className="absolute top-4 right-4 font-mono text-[9px] text-accent font-bold">STEP 0{PROCESS_STEPS[activeProcessTab].step}</span>
+            <div>
+              <h4 className="font-display text-lg font-bold uppercase text-foreground mb-3">{PROCESS_STEPS[activeProcessTab].name}</h4>
+              <p className="text-xs text-muted-foreground leading-relaxed">{PROCESS_STEPS[activeProcessTab].desc}</p>
+            </div>
+            <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center text-[10px] font-mono text-muted-foreground/60">
+              <span>Interactive Workflow Blueprint</span>
+              <span>N.Khatkar</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Developer Workspace Panel (Terminal + Mock IDE) */}
+      <section id="workspace" className="px-6 md:px-12 py-16 md:py-32 border-b border-border">
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          <div className="space-y-2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">05 / DEV CONTROL</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+              Interactive Workspace
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-md">
+              A designer who codes. Use the terminal console or files tab below to inspect my technical setup in real-time.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-12 gap-6 items-stretch">
+            
+            {/* Terminal Widget (col-span-5) */}
+            <div className="col-span-12 md:col-span-5 flex flex-col">
+              <div className="flex-1 rounded-2xl border border-border bg-surface/30 p-5 flex flex-col justify-between relative overflow-hidden shadow-lg min-h-[260px]">
+                <div>
+                  <div className="flex justify-between items-center mb-3 border-b border-border/50 pb-2 font-mono text-[10px]">
+                    <span className="flex items-center gap-1.5 text-muted-foreground">
+                      <TerminalIcon className="size-3.5 text-accent animate-pulse" /> zsh - developer console
+                    </span>
+                    <span className="size-2 rounded-full bg-emerald-500" />
+                  </div>
+
+                  <div className="h-44 overflow-y-auto font-mono text-[10px] flex flex-col gap-1.5 no-scrollbar select-text bg-background/20 p-2.5 rounded-lg border border-border/40">
+                    {terminalHistory.map((item, idx) => (
+                      <div key={idx} className="whitespace-pre-wrap leading-normal">
+                        {item.type === "input" ? (
+                          <span className="text-accent">eebu4o4$ <span className="text-foreground">{item.text}</span></span>
+                        ) : (
+                          <span className="text-muted-foreground/80">{item.text}</span>
+                        )}
+                      </div>
+                    ))}
+                    <div ref={terminalBottomRef} />
+                  </div>
+                </div>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    executeTerminalCommand(terminalInput);
+                  }}
+                  className="mt-3 border-t border-border/40 pt-2.5 flex items-center"
+                >
+                  <span className="text-accent font-mono text-[10px] mr-1 shrink-0">eebu4o4$</span>
+                  <input
+                    type="text"
+                    value={terminalInput}
+                    onChange={(e) => {
+                      setTerminalInput(e.target.value);
+                      playSynthTick("keypress", isMuted);
+                    }}
+                    placeholder="Type 'help'..."
+                    className="bg-transparent border-none outline-none text-[10px] text-foreground font-mono w-full"
+                  />
+                </form>
+              </div>
+            </div>
+
+            {/* IDE Widget (col-span-7) */}
+            <div className="col-span-12 md:col-span-7 flex flex-col">
+              <div className="flex-1 rounded-2xl border border-border bg-surface/30 overflow-hidden shadow-lg flex flex-col justify-between">
+                
+                {/* Titlebar */}
+                <div className="bg-background/80 border-b border-border px-4 py-2.5 flex items-center justify-between font-mono text-[10px] text-muted-foreground">
                   <div className="flex items-center gap-1.5">
                     <div className="size-2 rounded-full bg-red-500/80" />
                     <div className="size-2 rounded-full bg-yellow-500/80" />
                     <div className="size-2 rounded-full bg-green-500/80" />
                   </div>
-                  <div className="text-[9px] font-mono text-muted-foreground flex items-center gap-1">
-                    <FileCode className="size-3 text-accent" /> Nainshul - CodeWorkspace
-                  </div>
+                  <span>Nainshul - CodeWorkspace</span>
                   <div className="w-8" />
                 </div>
 
-                {/* Subheader tabs */}
-                <div className="bg-background/40 border-b border-border flex items-center justify-between -mx-6">
-                  <div className="flex overflow-x-auto">
+                {/* Subheader Tabs */}
+                <div className="bg-background/40 border-b border-border flex items-center justify-between">
+                  <div className="flex">
                     {(Object.keys(IDE_FILES) as Array<keyof typeof IDE_FILES>).map((fileName) => (
                       <button
                         key={fileName}
@@ -869,9 +762,9 @@ function Portfolio() {
                           setIdeView("code");
                           playSynthTick("click", isMuted);
                         }}
-                        className={`px-3 py-1.5 border-r border-border text-[9px] font-mono flex items-center gap-1 cursor-pointer transition-colors ${
+                        className={`px-3.5 py-1.5 border-r border-border text-[9px] font-mono flex items-center gap-1.5 cursor-pointer transition-colors ${
                           activeFile === fileName && ideView === "code"
-                            ? "bg-surface text-foreground border-b-2 border-b-accent"
+                            ? "bg-surface text-foreground border-b-2 border-b-accent font-bold"
                             : "text-muted-foreground hover:bg-surface/20"
                         }`}
                       >
@@ -898,13 +791,13 @@ function Portfolio() {
                       }}
                       className={`px-3 py-1.5 border-l border-border cursor-pointer flex items-center gap-1 ${ideView === "preview" ? "bg-surface text-accent font-semibold" : "text-muted-foreground"}`}
                     >
-                      <Play className="size-2 fill-accent text-accent" /> Run Preview
+                      <Play className="size-2 fill-accent text-accent" /> Run
                     </button>
                   </div>
                 </div>
 
-                {/* Workspace code viewer */}
-                <div className="pt-3 font-mono text-[10px] overflow-x-auto min-h-[190px] bg-background/5">
+                {/* Workspace area */}
+                <div className="p-4 font-mono text-[10px] overflow-x-auto min-h-[190px] bg-background/5">
                   {ideView === "code" ? (
                     <pre className="text-muted-foreground select-text leading-relaxed">
                       <code>
@@ -927,7 +820,6 @@ function Portfolio() {
                       </code>
                     </pre>
                   ) : (
-                    // Live UI Preview frame
                     <div className="flex items-center justify-center min-h-[160px] rounded-lg border border-dashed border-border/80 bg-surface/10 p-4">
                       {activeFile === "Nainshul.tsx" && (
                         <div className="w-full max-w-xs rounded-xl border border-border bg-surface p-4 shadow-lg text-left">
@@ -990,181 +882,143 @@ function Portfolio() {
                     </div>
                   )}
                 </div>
+
               </div>
-            </BentoCard>
+            </div>
+
           </div>
 
-          {/* Achievements Trophy Shelf Widget (col-span-4) */}
-          <div className="col-span-12 md:col-span-4 flex flex-col">
-            <BentoCard isMuted={isMuted} className="flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="size-4 text-accent" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider">04 / Trophy Case</span>
+          {/* Hackathon Wins row */}
+          <div className="pt-4 grid sm:grid-cols-3 gap-6">
+            {ACHIEVEMENTS.map((ach) => (
+              <div 
+                key={ach.title}
+                className="bg-surface border border-border p-5 rounded-xl flex items-center justify-between"
+              >
+                <div className="space-y-1">
+                  <span className="text-[9px] font-mono text-accent font-bold uppercase tracking-wider">{ach.place}</span>
+                  <h4 className="font-display font-extrabold text-xs uppercase text-foreground">{ach.title}</h4>
+                  <p className="text-[9px] text-muted-foreground font-mono">{ach.where}</p>
                 </div>
-
-                <div className="space-y-4">
-                  {ACHIEVEMENTS.map((a, i) => (
-                    <div
-                      key={a.title}
-                      className="group/item flex items-start gap-3 bg-surface/30 p-3 rounded-xl border border-border/50 hover:border-accent/30 transition-all duration-300"
-                    >
-                      <div className="size-8 rounded-lg bg-accent/10 border border-accent/20 grid place-items-center text-accent shrink-0">
-                        <Trophy className="size-4 group-hover/item:animate-bounce" />
-                      </div>
-                      <div>
-                        <span className="text-[8px] font-mono uppercase tracking-wider text-accent font-bold">{a.place}</span>
-                        <h4 className="text-xs font-display font-bold leading-tight mt-0.5">{a.title}</h4>
-                        <p className="text-[9px] text-muted-foreground mt-1 leading-snug">{a.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <Trophy className="size-5 text-accent opacity-60" />
               </div>
-
-              <div className="mt-4 pt-3 border-t border-border/40 text-[9px] font-mono text-muted-foreground/60 text-right">
-                3 Recognized Trophies
-              </div>
-            </BentoCard>
-          </div>
-
-          {/* Quick Contact Form (col-span-12) */}
-          <div className="col-span-12">
-            <BentoCard isMuted={isMuted} className="p-8">
-              <div className="grid md:grid-cols-12 gap-8 items-center">
-                <div className="md:col-span-7">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Mail className="size-4 text-accent animate-pulse" />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">05 / Contact Workspace</span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-display font-black tracking-tight leading-none mb-3">
-                    Let's Build Something Performing
-                  </h3>
-                  <p className="text-xs text-muted-foreground/80 leading-relaxed max-w-xl">
-                    I convert structural UI design wireframes into clean, reactive, and responsive developer layouts. Let's start a project discussion.
-                  </p>
-                </div>
-
-                <div className="md:col-span-5 flex flex-col xs:flex-row items-stretch xs:items-center gap-3">
-                  <a
-                    href="mailto:nainshulkhatker@gmail.com"
-                    className="flex-1 h-12 rounded-xl bg-accent text-white flex items-center justify-center gap-2 text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer shadow-[var(--shadow-glow)]"
-                    onMouseEnter={() => playSynthTick("hover", isMuted)}
-                    onClick={() => playSynthTick("click", isMuted)}
-                  >
-                    <Mail className="size-4" />
-                    <span>nainshulkhatker@gmail.com</span>
-                  </a>
-                  <a
-                    href="tel:+919467355251"
-                    className="flex-1 h-12 rounded-xl bg-surface border border-border flex items-center justify-center gap-2 text-xs font-bold hover:border-accent/40 hover:bg-surface-2 transition-all cursor-pointer"
-                    onMouseEnter={() => playSynthTick("hover", isMuted)}
-                    onClick={() => playSynthTick("click", isMuted)}
-                  >
-                    <Phone className="size-4 text-accent" />
-                    <span>+91 94673 55251</span>
-                  </a>
-                </div>
-              </div>
-            </BentoCard>
+            ))}
           </div>
 
         </div>
-      </main>
+      </section>
+
+      {/* FAQ Accordion Section */}
+      <section id="faq" className="px-6 md:px-12 py-16 md:py-32 border-b border-border bg-surface/10">
+        <div className="max-w-4xl mx-auto space-y-12">
+          
+          <div className="text-center space-y-2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">06 / ANSWERS</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="space-y-4 pt-6">
+            {FAQS.map((faq, idx) => {
+              const isOpen = activeFAQ === idx;
+              return (
+                <div 
+                  key={idx}
+                  className="rounded-2xl border border-border bg-surface/40 overflow-hidden transition-all duration-300"
+                >
+                  <button
+                    onClick={() => {
+                      setActiveFAQ(isOpen ? null : idx);
+                      playSynthTick("click", isMuted);
+                    }}
+                    onMouseEnter={() => playSynthTick("hover", isMuted)}
+                    className="w-full px-6 py-4 flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-foreground hover:text-accent transition-colors cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <span className="shrink-0 size-6 border border-border/80 rounded-full grid place-items-center bg-background/50 hover:border-accent">
+                      {isOpen ? <Minus className="size-3" /> : <Plus className="size-3" />}
+                    </span>
+                  </button>
+                  
+                  {isOpen && (
+                    <div className="px-6 pb-5 pt-1 text-xs text-muted-foreground/90 border-t border-border/40 bg-surface/20 leading-relaxed select-text animate-fade-up">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="px-6 md:px-12 py-16 md:py-32">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          
+          <div className="space-y-4">
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">07 / CONNECT</span>
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight leading-none">
+              Let's create something <br />
+              <span className="font-serif-italic text-accent lowercase">special</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
+              Have an interesting challenge or a project? Drop a mail or book a direct developer consultation call.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 font-mono text-xs pt-4">
+            <a
+              href="mailto:nainshulkhatker@gmail.com"
+              className="inline-flex items-center gap-2 h-12 px-6 bg-accent text-black font-bold rounded-full transition-opacity hover:opacity-90 shadow-lg cursor-pointer"
+              onMouseEnter={() => playSynthTick("hover", isMuted)}
+              onClick={() => playSynthTick("click", isMuted)}
+            >
+              <Mail className="size-4" />
+              <span>nainshulkhatker@gmail.com</span>
+            </a>
+            
+            <a
+              href="tel:+919467355251"
+              className="inline-flex items-center gap-2 h-12 px-6 border border-border hover:border-accent hover:text-accent transition-colors rounded-full font-bold cursor-pointer"
+              onMouseEnter={() => playSynthTick("hover", isMuted)}
+              onClick={() => playSynthTick("click", isMuted)}
+            >
+              <Phone className="size-4" />
+              <span>+91 94673 55251</span>
+            </a>
+          </div>
+
+          {/* Social connections list */}
+          <div className="flex justify-center gap-6 pt-8 border-t border-border font-mono text-[10px]">
+            {SOCIALS.map((soc) => (
+              <a
+                key={soc.label}
+                href={soc.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-accent flex items-center gap-1"
+                onMouseEnter={() => playSynthTick("hover", isMuted)}
+                onClick={() => playSynthTick("click", isMuted)}
+              >
+                <span>{soc.label}</span>
+                <ArrowUpRight className="size-3" />
+              </a>
+            ))}
+          </div>
+
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="text-center py-10 text-[10px] font-mono text-muted-foreground/60 select-none">
-        <p>© {new Date().getFullYear()} EEBU4o4 · Nainshul Khatkar · Crafted with Care in Haryana, India</p>
-        <p className="uppercase tracking-widest text-[8px] mt-1">Spatial Desktop UI Environment v3.0.0</p>
+      <footer className="border-t border-border py-8 bg-surface/20">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left text-[9px] font-mono text-muted-foreground/60 uppercase tracking-widest">
+          <p>© {new Date().getFullYear()} Nainshul Khatkar · All Rights Reserved</p>
+          <p>Created in Framer-to-React Style</p>
+        </div>
       </footer>
-
-      {/* Floating Chat Bot Widget */}
-      <div className="fixed bottom-6 right-6 z-40">
-        {chatOpen ? (
-          <div className="w-80 sm:w-96 rounded-2xl border border-border bg-surface shadow-2xl overflow-hidden flex flex-col animate-fade-up">
-            <div className="bg-background/80 px-4 py-3 border-b border-border flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="size-7 rounded-full bg-accent/20 border border-accent/30 grid place-items-center">
-                  <Sparkles className="size-3.5 text-accent animate-pulse" />
-                </div>
-                <div>
-                  <h5 className="text-xs font-bold font-display">EEBU Bot</h5>
-                  <p className="text-[9px] text-emerald-500 font-mono">System Online</p>
-                </div>
-              </div>
-              <button 
-                onClick={() => {
-                  setChatOpen(false);
-                  playSynthTick("click", isMuted);
-                }}
-                className="text-muted-foreground hover:text-foreground cursor-pointer"
-              >
-                <X className="size-4" />
-              </button>
-            </div>
-
-            <div className="p-4 h-60 overflow-y-auto flex flex-col gap-3 bg-background/15 select-text text-xs no-scrollbar">
-              {chatHistory.map((msg, idx) => (
-                <div 
-                  key={idx} 
-                  className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-                >
-                  <div className={`p-3 rounded-2xl max-w-[80%] leading-relaxed ${
-                    msg.sender === "user" 
-                      ? "bg-accent text-white rounded-tr-none" 
-                      : "bg-surface-2 text-foreground border border-border rounded-tl-none"
-                  }`}>
-                    {msg.text}
-                  </div>
-                </div>
-              ))}
-              
-              {isBotTyping && (
-                <div className="flex justify-start">
-                  <div className="bg-surface-2 border border-border p-3 rounded-2xl rounded-tl-none flex gap-1 items-center">
-                    <span className="size-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="size-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="size-1.5 rounded-full bg-accent animate-bounce" style={{ animationDelay: "300ms" }} />
-                  </div>
-                </div>
-              )}
-              <div ref={chatEndRef} />
-            </div>
-
-            <div className="p-3 bg-surface border-t border-border flex flex-col gap-1.5">
-              <p className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider mb-1 px-1">Ask a question:</p>
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  "💼 Freelance/Internship availability?",
-                  "🛠️ Core tech stack?",
-                  "🏆 Hackathon projects?",
-                  "📞 Quick contact?"
-                ].map((q) => (
-                  <button
-                    key={q}
-                    disabled={isBotTyping}
-                    onClick={() => triggerBotResponse(q)}
-                    className="text-[10px] text-left px-2.5 py-1.5 rounded-lg bg-background border border-border hover:border-accent hover:bg-surface-2 transition-all cursor-pointer"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => {
-              setChatOpen(true);
-              playSynthTick("click", isMuted);
-            }}
-            className="size-12 rounded-full bg-accent hover:opacity-90 text-white grid place-items-center shadow-[var(--shadow-glow)] transition-all hover:scale-105 cursor-pointer relative"
-          >
-            <MessageSquare className="size-5" />
-            <span className="absolute -top-1.5 -right-1.5 bg-emerald-500 border-2 border-background size-3.5 rounded-full" />
-          </button>
-        )}
-      </div>
 
     </div>
   );
